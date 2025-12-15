@@ -2,10 +2,10 @@
 class GitHubIntegration {
     constructor() {
         this.config = {
-            username: 'your-github-username',
-            repo: 'science-hub-content',
+            username: '1DeadGrex',
+            repo: 'SciTeach',
             branch: 'main',
-            token: 'your-github-token'
+            token: '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'
         };
         
         this.baseUrls = {
