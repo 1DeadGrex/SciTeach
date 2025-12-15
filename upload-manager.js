@@ -6,10 +6,10 @@ class UploadManager {
         
         // GitHub Configuration - YOU NEED TO SET THESE
         this.githubConfig = {
-            username: 'YOUR_GITHUB_USERNAME', // Change this
-            repo: 'science-hub-uploads',     // Create this repo
+            username: '1DeadGrex', // Change this
+            repo: 'SciTech',     // Create this repo
             branch: 'main',
-            token: 'YOUR_GITHUB_TOKEN'       // Generate at GitHub Settings > Developer Settings > Personal Access Tokens
+            token: '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'       // Generate at GitHub Settings > Developer Settings > Personal Access Tokens
         };
     }
 
