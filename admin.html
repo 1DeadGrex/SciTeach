@@ -344,9 +344,14 @@
         <header class="admin-header">
             <h1>Admin <span class="text-red">Panel</span></h1>
             <p class="text-muted">Review and manage teacher submissions</p>
-            <button id="logoutBtn" class="btn btn-glass" style="margin-top: 1rem;">
-                <i class="gg-log-out"></i> Logout
-            </button>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button id="logoutBtn" class="btn btn-glass">
+                    <i class="gg-log-out"></i> Logout
+                </button>
+                <button id="clearSubmissionsBtn" class="btn btn-glass" style="background: rgba(255,0,0,0.1); border-color: #ff0000;">
+                    <i class="gg-trash"></i> Clear All (Test)
+                </button>
+            </div>
         </header>
 
         <!-- Stats -->
@@ -524,6 +529,10 @@
             const adminPassword = document.getElementById('adminPassword');
             const loginBtn = document.getElementById('loginBtn');
             const logoutBtn = document.getElementById('logoutBtn');
+            const clearSubmissionsBtn = document.getElementById('clearSubmissionsBtn');
+            
+            // Initialize with sample data if empty
+            initializeSampleData();
             
             // Check if already logged in
             if (localStorage.getItem('scienceHub_adminLoggedIn') === 'true') {
@@ -551,6 +560,17 @@
                 localStorage.removeItem('scienceHub_adminLoggedIn');
                 showAdminLogin();
                 adminPassword.value = '';
+            });
+            
+            // Clear all submissions (for testing)
+            clearSubmissionsBtn.addEventListener('click', function() {
+                if (confirm('Clear all submissions? This will delete all data and reload sample submissions.')) {
+                    localStorage.removeItem('scienceHub_submissions');
+                    initializeSampleData();
+                    updateStats();
+                    loadCurrentTab();
+                    alert('All submissions cleared and sample data loaded.');
+                }
             });
             
             // Tab switching
@@ -707,7 +727,8 @@
                     
                     // Date
                     clone.querySelector('[style*="font-size: 0.8rem"]').textContent = 
-                        new Date(submission.submittedAt).toLocaleString();
+                        new Date(submission.submittedAt).toLocaleDateString() + ' ' + 
+                        new Date(submission.submittedAt).toLocaleTimeString();
                     
                     // Teacher info
                     clone.querySelector('[TEACHER_NAME]').textContent = submission.teacherName || 'Not provided';
@@ -895,12 +916,107 @@
                 return submissions ? JSON.parse(submissions) : [];
             }
             
+            function updateSubmission(id, updates) {
+                const submissions = getAllSubmissions();
+                const index = submissions.findIndex(s => s.id === id);
+                
+                if (index !== -1) {
+                    submissions[index] = { ...submissions[index], ...updates };
+                    localStorage.setItem('scienceHub_submissions', JSON.stringify(submissions));
+                    return true;
+                }
+                
+                return false;
+            }
+            
             function formatFileSize(bytes) {
-                if (bytes === 0) return '0 Bytes';
+                if (!bytes) return '0 Bytes';
                 const k = 1024;
                 const sizes = ['Bytes', 'KB', 'MB', 'GB'];
                 const i = Math.floor(Math.log(bytes) / Math.log(k));
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Initialize with sample data if empty
+            function initializeSampleData() {
+                let submissions = getAllSubmissions();
+                
+                if (submissions.length === 0) {
+                    submissions = [
+                        {
+                            id: 'sample_1',
+                            teacherName: 'Dr. John Smith',
+                            teacherEmail: 'john.smith@example.com',
+                            materialTitle: 'Physics Class 12 Complete Notes',
+                            materialDescription: 'Complete physics notes for class 12 covering all chapters with diagrams and solved examples.',
+                            materialSubject: 'physics',
+                            materialClass: '12',
+                            materialYear: '2024',
+                            materialLanguage: 'english',
+                            resourceType: 'pdf',
+                            cloudLink: 'https://drive.google.com/file/sample1',
+                            submittedAt: '2024-01-15T10:30:00Z',
+                            status: 'pending',
+                            fileInfo: {
+                                name: 'physics_12_notes.pdf',
+                                size: 15800000,
+                                sizeFormatted: '15.1 MB',
+                                type: 'application/pdf'
+                            },
+                            pages: 85
+                        },
+                        {
+                            id: 'sample_2',
+                            teacherName: 'Prof. Sarah Johnson',
+                            teacherEmail: 'sarah.j@example.com',
+                            materialTitle: 'Chemistry Organic Reactions Video Series',
+                            materialDescription: 'A comprehensive video series explaining organic chemistry reactions with animations.',
+                            materialSubject: 'chemistry',
+                            materialClass: '11',
+                            materialYear: '2024',
+                            materialLanguage: 'english',
+                            resourceType: 'video',
+                            cloudLink: 'https://youtube.com/playlist/sample',
+                            submittedAt: '2024-01-14T14:20:00Z',
+                            status: 'pending',
+                            fileInfo: {
+                                name: 'organic_chemistry_videos.zip',
+                                size: 320000000,
+                                sizeFormatted: '305 MB',
+                                type: 'application/zip'
+                            },
+                            duration: '10 hours',
+                            platform: 'YouTube'
+                        },
+                        {
+                            id: 'sample_3',
+                            teacherName: 'Dr. Robert Chen',
+                            teacherEmail: 'r.chen@example.com',
+                            materialTitle: 'Biology Diagrams Collection',
+                            materialDescription: 'High-quality biology diagrams for class 12 students.',
+                            materialSubject: 'biology',
+                            materialClass: '12',
+                            materialYear: '2023',
+                            materialLanguage: 'english',
+                            resourceType: 'notes',
+                            cloudLink: null,
+                            submittedAt: '2024-01-13T09:15:00Z',
+                            status: 'approved',
+                            fileInfo: {
+                                name: 'biology_diagrams.pdf',
+                                size: 8500000,
+                                sizeFormatted: '8.1 MB',
+                                type: 'application/pdf'
+                            },
+                            pages: 45,
+                            adminNotes: 'Excellent quality diagrams. Approved for publishing.',
+                            approvedAt: '2024-01-14T11:30:00Z',
+                            githubUrl: 'https://github.com/science-hub/biology-diagrams'
+                        }
+                    ];
+                    
+                    localStorage.setItem('scienceHub_submissions', JSON.stringify(submissions));
+                }
             }
             
             // Auto-refresh every 30 seconds
@@ -918,13 +1034,21 @@
             const notes = notesInput ? notesInput.value : '';
             
             if (confirm('Approve this submission?')) {
-                updateSubmission(id, {
+                const success = updateSubmission(id, {
                     status: 'approved',
                     adminNotes: notes,
                     approvedAt: new Date().toISOString()
                 });
                 
-                alert('Submission approved!');
+                if (success) {
+                    alert('Submission approved!');
+                    // Reload the current tab
+                    const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+                    loadTabData(activeTab);
+                    updateStats();
+                } else {
+                    alert('Failed to update submission');
+                }
             }
         }
         
@@ -933,34 +1057,56 @@
             const notes = notesInput ? notesInput.value : '';
             
             if (confirm('Reject this submission?')) {
-                updateSubmission(id, {
+                const success = updateSubmission(id, {
                     status: 'rejected',
                     adminNotes: notes,
                     rejectedAt: new Date().toISOString()
                 });
                 
-                alert('Submission rejected!');
+                if (success) {
+                    alert('Submission rejected!');
+                    // Reload the current tab
+                    const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+                    loadTabData(activeTab);
+                    updateStats();
+                } else {
+                    alert('Failed to update submission');
+                }
             }
         }
         
         function publishToGitHub(id) {
             if (confirm('Publish this material to GitHub repository?')) {
-                alert('GitHub publishing would happen here.\nIn a real application, this would upload the material to your GitHub repo.');
-                
-                // In real implementation, you would:
-                // 1. Get the submission data
-                // 2. Upload to GitHub using GitHub API
-                // 3. Update submission with GitHub URL
-                
-                // Demo: Mark as published
-                updateSubmission(id, {
+                const success = updateSubmission(id, {
                     githubUrl: 'https://github.com/your-username/science-hub-content',
                     published: true,
                     publishedAt: new Date().toISOString()
                 });
                 
-                alert('Material marked as published to GitHub!');
+                if (success) {
+                    alert('Material marked as published to GitHub!\nNote: In a real application, this would upload the material to your GitHub repo.');
+                    // Reload the current tab
+                    const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+                    loadTabData(activeTab);
+                } else {
+                    alert('Failed to update submission');
+                }
             }
+        }
+        
+        // Make functions available globally
+        window.approveSubmission = approveSubmission;
+        window.rejectSubmission = rejectSubmission;
+        window.publishToGitHub = publishToGitHub;
+        window.getAllSubmissions = getAllSubmissions;
+        window.updateSubmission = updateSubmission;
+        window.loadTabData = loadTabData;
+        window.updateStats = updateStats;
+        
+        // Helper functions that need to be exposed
+        function getAllSubmissions() {
+            const submissions = localStorage.getItem('scienceHub_submissions');
+            return submissions ? JSON.parse(submissions) : [];
         }
         
         function updateSubmission(id, updates) {
@@ -970,26 +1116,70 @@
             if (index !== -1) {
                 submissions[index] = { ...submissions[index], ...updates };
                 localStorage.setItem('scienceHub_submissions', JSON.stringify(submissions));
-                
-                // Update stats
-                if (typeof updateStats === 'function') {
-                    updateStats();
-                }
-                
-                // Reload current tab
-                if (typeof loadCurrentTab === 'function') {
-                    loadCurrentTab();
-                }
-                
                 return true;
             }
             
             return false;
         }
         
-        function getAllSubmissions() {
-            const submissions = localStorage.getItem('scienceHub_submissions');
-            return submissions ? JSON.parse(submissions) : [];
+        function loadTabData(tab) {
+            const activeTab = document.querySelector('.tab-btn.active');
+            if (activeTab && activeTab.dataset.tab === tab) {
+                const submissions = getAllSubmissions();
+                let filtered = [];
+                
+                if (tab === 'pending') {
+                    filtered = submissions.filter(s => s.status === 'pending');
+                } else if (tab === 'approved') {
+                    filtered = submissions.filter(s => s.status === 'approved');
+                } else if (tab === 'rejected') {
+                    filtered = submissions.filter(s => s.status === 'rejected');
+                } else {
+                    filtered = submissions;
+                }
+                
+                const typeFilter = document.getElementById('filterType').value;
+                const subjectFilter = document.getElementById('filterSubject').value;
+                const classFilter = document.getElementById('filterClass').value;
+                
+                filtered = filtered.filter(submission => {
+                    if (typeFilter !== 'all' && submission.resourceType !== typeFilter) return false;
+                    if (subjectFilter !== 'all' && submission.materialSubject !== subjectFilter) return false;
+                    if (classFilter !== 'all' && submission.materialClass !== classFilter) return false;
+                    return true;
+                });
+                
+                // Re-render
+                const containerId = tab + 'SubmissionsList';
+                const container = document.getElementById(containerId);
+                
+                if (filtered.length === 0) {
+                    const template = document.getElementById('emptyStateTemplate');
+                    container.innerHTML = '';
+                    container.appendChild(template.content.cloneNode(true));
+                    return;
+                }
+                
+                // Note: In a real implementation, we would re-render here
+                // For simplicity, we'll just reload the page data
+                window.location.reload();
+            }
+        }
+        
+        function updateStats() {
+            const submissions = getAllSubmissions();
+            
+            const stats = {
+                total: submissions.length,
+                pending: submissions.filter(s => s.status === 'pending').length,
+                approved: submissions.filter(s => s.status === 'approved').length,
+                rejected: submissions.filter(s => s.status === 'rejected').length
+            };
+            
+            document.getElementById('totalSubmissions').textContent = stats.total;
+            document.getElementById('pendingSubmissions').textContent = stats.pending;
+            document.getElementById('approvedSubmissions').textContent = stats.approved;
+            document.getElementById('rejectedSubmissions').textContent = stats.rejected;
         }
     </script>
 </body>
