@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publish Material | SciTeach</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://css.gg/css' rel='stylesheet'>
+    <style>
+        /* Simplified Publish Page Styles */
+        .publish-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .publish-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .publish-form {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-group label.required::after {
+            content: ' *';
+            color: var(--primary-red);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 2px rgba(255, 31, 31, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .resource-type-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .resource-type-btn {
+            padding: 1.5rem 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .resource-type-btn i {
+            font-size: 2rem;
+            color: var(--text-muted);
+        }
+
+        .resource-type-btn:hover {
+            border-color: var(--primary-red);
+            color: var(--text-color);
+        }
+
+        .resource-type-btn.active {
+            background: rgba(255, 31, 31, 0.1);
+            border-color: var(--primary-red);
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 31, 31, 0.2);
+        }
+
+        .resource-type-btn.active i {
+            color: var(--primary-red);
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--glass-border);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--primary-red);
+            background: rgba(255, 31, 31, 0.05);
+        }
+
+        .file-upload-area.drag-over {
+            border-color: var(--primary-red);
+            background: rgba(255, 31, 31, 0.1);
+        }
+
+        .file-upload-area i {
+            font-size: 3rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .file-info.show {
+            display: flex;
+        }
+
+        .file-warning {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .file-warning.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .file-warning i {
+            color: #ffa500;
+            margin-right: 0.5rem;
+        }
+
+        .size-warning {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .size-warning.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .size-warning i {
+            color: #ff0000;
+            margin-right: 0.5rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .submit-btn:hover {
+            background: #ff3a3a;
+            box-shadow: 0 0 20px rgba(255, 31, 31, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            background: rgba(255, 31, 31, 0.5);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+            text-align: center;
+        }
+
+        .status-message.success {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            color: #00ff00;
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .status-message.error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff0000;
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .resource-type-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-container"></div>
+
+    <div class="publish-container">
+        <header class="publish-header">
+            <h1 style="font-size: 2.5rem;">
+                Publish <span class="text-red">Material</span>
+            </h1>
+            <p class="text-muted">
+                Share your educational resources with students. All submissions will be reviewed by admin.
+            </p>
+        </header>
+
+        <!-- Resource Type Selector -->
+        <div class="resource-type-selector">
+            <button class="resource-type-btn active" data-type="pdf">
+                <i class="gg-file-document"></i>
+                <span>PDFs & Books</span>
+            </button>
+            <button class="resource-type-btn" data-type="notes">
+                <i class="gg-pen"></i>
+                <span>Handwritten Notes</span>
+            </button>
+            <button class="resource-type-btn" data-type="video">
+                <i class="gg-youtube"></i>
+                <span>Video Lectures</span>
+            </button>
+            <button class="resource-type-btn" data-type="course">
+                <i class="gg-lee-u"></i>
+                <span>Free Courses</span>
+            </button>
+        </div>
+
+        <!-- Publish Form -->
+        <form id="publishForm" class="publish-form">
+            <input type="hidden" id="resourceType" value="pdf">
+            
+            <div class="form-group">
+                <label for="teacherName" class="required">Your Name</label>
+                <input type="text" id="teacherName" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="teacherEmail" class="required">Your Email</label>
+                <input type="email" id="teacherEmail" placeholder="you@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="materialTitle" class="required">Material Title</label>
+                <input type="text" id="materialTitle" placeholder="e.g., Class 11 Physics Notes" required>
+            </div>
+
+            <div class="form-group">
+                <label for="materialDescription" class="required">Description</label>
+                <textarea id="materialDescription" placeholder="Describe the material in detail..." required></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="materialSubject" class="required">Subject</label>
+                    <select id="materialSubject" required>
+                        <option value="">Select Subject</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="biology">Biology</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="english">English</option>
+                        <option value="computer-science">Computer Science</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="materialClass" class="required">Class/Grade</label>
+                    <select id="materialClass" required>
+                        <option value="">Select Class</option>
+                        <option value="9">Class 9</option>
+                        <option value="10">Class 10</option>
+                        <option value="11">Class 11</option>
+                        <option value="12">Class 12</option>
+                        <option value="college">College/University</option>
+                        <option value="general">General/All</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="materialYear" class="required">Year</label>
+                    <select id="materialYear" required>
+                        <option value="">Select Year</option>
+                        <option value="2020">2026(latest)</option>
+                        <option value="2020">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="older">Older than 2020</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="materialLanguage" class="required">Language</label>
+                    <select id="materialLanguage" required>
+                        <option value="english">English</option>
+                        <option value="hindi">Hindi</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- File Upload Section -->
+            <div class="form-group">
+                <label for="materialFile" class="required">Upload File</label>
+                <div class="file-upload-area" id="fileUploadArea">
+                    <i class="gg-software-upload"></i>
+                    <h3>Click to upload or drag and drop</h3>
+                    <p class="text-muted">PDF, DOC, PPT, ZIP, MP4, etc. (Max: 25MB)</p>
+                    <input type="file" id="materialFile" style="display: none;" accept=".pdf,.doc,.docx,.ppt,.pptx,.zip,.rar,.mp4,.avi,.mov">
+                </div>
+                
+                <div id="fileInfo" class="file-info">
+                    <i class="gg-file" style="font-size: 1.5rem;"></i>
+                    <div style="flex: 1;">
+                        <div id="fileName" style="font-weight: 600;"></div>
+                        <div id="fileSize" class="text-muted" style="font-size: 0.9rem;"></div>
+                    </div>
+                    <button type="button" id="removeFile" class="btn btn-glass" style="padding: 0.5rem;">
+                        <i class="gg-close"></i>
+                    </button>
+                </div>
+
+                <div id="fileWarning" class="file-warning">
+                    <i class="gg-danger"></i>
+                    <span>Large file detected. For better performance, consider compressing your file.</span>
+                </div>
+
+                <div id="sizeWarning" class="size-warning">
+                    <i class="gg-danger"></i>
+                    <span><strong>Your file is bigger than expected [>25MB]!</strong> Please upload file on any cloud service (Google Drive, Dropbox, etc.) and paste the shareable link in the link input below.</span>
+                </div>
+            </div>
+
+            <!-- Cloud Link (Optional) -->
+            <div class="form-group">
+                <label for="cloudLink">Cloud Link (Optional)</label>
+                <input type="url" id="cloudLink" placeholder="https://drive.google.com/file/... or https://dropbox.com/s/...">
+                <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.5rem;">
+                    Use this if your file is too large (>25MB). Paste the shareable link from Google Drive, Dropbox, etc.
+                </p>
+            </div>
+
+            <!-- Additional fields based on resource type -->
+            <div id="pdfFields" class="additional-fields">
+                <div class="form-group">
+                    <label for="pdfPages">Number of Pages (Optional)</label>
+                    <input type="number" id="pdfPages" placeholder="e.g., 150" min="1">
+                </div>
+            </div>
+
+            <div id="notesFields" class="additional-fields" style="display: none;">
+                <div class="form-group">
+                    <label for="notesPages">Number of Pages (Optional)</label>
+                    <input type="number" id="notesPages" placeholder="e.g., 50" min="1">
+                </div>
+            </div>
+
+            <div id="videoFields" class="additional-fields" style="display: none;">
+                <div class="form-group">
+                    <label for="videoDuration">Duration (Optional)</label>
+                    <input type="text" id="videoDuration" placeholder="e.g., 45 minutes">
+                </div>
+                <div class="form-group">
+                    <label for="videoPlatform">Platform (Optional)</label>
+                    <select id="videoPlatform">
+                        <option value="">Select Platform</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="vimeo">Vimeo</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="courseFields" class="additional-fields" style="display: none;">
+                <div class="form-group">
+                    <label for="courseProvider">Course Provider (Optional)</label>
+                    <input type="text" id="courseProvider" placeholder="e.g., MIT, Coursera, Khan Academy">
+                </div>
+                <div class="form-group">
+                    <label for="courseDuration">Course Duration (Optional)</label>
+                    <input type="text" id="courseDuration" placeholder="e.g., 8 weeks, 40 hours">
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="submit-btn">
+                <i class="gg-software-upload"></i> Submit for Review
+            </button>
+
+            <div id="statusMessage" class="status-message"></div>
+
+            <p class="text-muted" style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
+                Your submission will be reviewed by admin within 24-48 hours. You'll receive an email notification.
+            </p>
+        </form>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="index.html" class="btn btn-glass" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                <i class="gg-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <div style="text-align: center;">
+            © 2024 Science Hub. Teacher Submission Portal.
+        </div>
+    </footer>
+
+    <script>
+        // Publish Page JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            let selectedFile = null;
+            const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25MB in bytes
+            const WARNING_FILE_SIZE = 20 * 1024 * 1024; // 20MB - show warning
+            
+            // Resource type selector
+            const resourceTypeBtns = document.querySelectorAll('.resource-type-btn');
+            resourceTypeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    resourceTypeBtns.forEach(b => b.classList.remove('active'));
+                    // Add active to clicked button
+                    this.classList.add('active');
+                    // Update hidden input
+                    document.getElementById('resourceType').value = this.dataset.type;
+                    
+                    // Show/hide additional fields
+                    document.querySelectorAll('.additional-fields').forEach(field => {
+                        field.style.display = 'none';
+                    });
+                    
+                    const type = this.dataset.type;
+                    document.getElementById(type + 'Fields').style.display = 'block';
+                });
+            });
+
+            // File upload handling
+            const fileUploadArea = document.getElementById('fileUploadArea');
+            const fileInput = document.getElementById('materialFile');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const removeFileBtn = document.getElementById('removeFile');
+            const fileWarning = document.getElementById('fileWarning');
+            const sizeWarning = document.getElementById('sizeWarning');
+            const cloudLinkInput = document.getElementById('cloudLink');
+
+            // Click to upload
+            fileUploadArea.addEventListener('click', () => fileInput.click());
+            
+            // Drag and drop
+            fileUploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                fileUploadArea.classList.add('drag-over');
+            });
+
+            fileUploadArea.addEventListener('dragleave', () => {
+                fileUploadArea.classList.remove('drag-over');
+            });
+
+            fileUploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileUploadArea.classList.remove('drag-over');
+                
+                if (e.dataTransfer.files.length) {
+                    handleFileSelect(e.dataTransfer.files[0]);
+                }
+            });
+
+            // File input change
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    handleFileSelect(e.target.files[0]);
+                }
+            });
+
+            // Remove file
+            removeFileBtn.addEventListener('click', () => {
+                selectedFile = null;
+                fileInput.value = '';
+                fileInfo.classList.remove('show');
+                fileWarning.classList.remove('show');
+                sizeWarning.classList.remove('show');
+            });
+
+            // Handle file selection
+            function handleFileSelect(file) {
+                selectedFile = file;
+                
+                // Update file info display
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                fileInfo.classList.add('show');
+                
+                // Check file size
+                if (file.size > MAX_FILE_SIZE) {
+                    // File too large (>25MB)
+                    sizeWarning.classList.add('show');
+                    fileWarning.classList.remove('show');
+                    
+                    // Focus on cloud link input
+                    cloudLinkInput.focus();
+                    cloudLinkInput.style.borderColor = '#ff0000';
+                    cloudLinkInput.style.boxShadow = '0 0 0 2px rgba(255, 0, 0, 0.1)';
+                    
+                    // Add validation for cloud link
+                    cloudLinkInput.setAttribute('required', 'required');
+                } else if (file.size > WARNING_FILE_SIZE) {
+                    // File large (20-25MB) - show warning
+                    fileWarning.classList.add('show');
+                    sizeWarning.classList.remove('show');
+                    cloudLinkInput.removeAttribute('required');
+                    cloudLinkInput.style.borderColor = '';
+                    cloudLinkInput.style.boxShadow = '';
+                } else {
+                    // File size OK
+                    fileWarning.classList.remove('show');
+                    sizeWarning.classList.remove('show');
+                    cloudLinkInput.removeAttribute('required');
+                    cloudLinkInput.style.borderColor = '';
+                    cloudLinkInput.style.boxShadow = '';
+                }
+            }
+
+            // Format file size
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+
+            // Form submission
+            document.getElementById('publishForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const formData = {
+                    teacherName: document.getElementById('teacherName').value,
+                    teacherEmail: document.getElementById('teacherEmail').value,
+                    materialTitle: document.getElementById('materialTitle').value,
+                    materialDescription: document.getElementById('materialDescription').value,
+                    materialSubject: document.getElementById('materialSubject').value,
+                    materialClass: document.getElementById('materialClass').value,
+                    materialYear: document.getElementById('materialYear').value,
+                    materialLanguage: document.getElementById('materialLanguage').value,
+                    resourceType: document.getElementById('resourceType').value,
+                    cloudLink: document.getElementById('cloudLink').value || null,
+                    submittedAt: new Date().toISOString(),
+                    status: 'pending',
+                    id: generateUploadId()
+                };
+
+                // Add type-specific fields
+                const type = formData.resourceType;
+                if (type === 'pdf') {
+                    formData.pages = document.getElementById('pdfPages').value || null;
+                } else if (type === 'notes') {
+                    formData.pages = document.getElementById('notesPages').value || null;
+                } else if (type === 'video') {
+                    formData.duration = document.getElementById('videoDuration').value || null;
+                    formData.platform = document.getElementById('videoPlatform').value || null;
+                } else if (type === 'course') {
+                    formData.provider = document.getElementById('courseProvider').value || null;
+                    formData.courseDuration = document.getElementById('courseDuration').value || null;
+                }
+
+                // File validation
+                if (selectedFile) {
+                    formData.fileInfo = {
+                        name: selectedFile.name,
+                        size: selectedFile.size,
+                        sizeFormatted: formatFileSize(selectedFile.size),
+                        type: selectedFile.type
+                    };
+                    
+                    if (selectedFile.size > MAX_FILE_SIZE && !formData.cloudLink) {
+                        showMessage('File is too large (>25MB). Please provide a cloud link.', 'error');
+                        return;
+                    }
+                } else if (!formData.cloudLink) {
+                    showMessage('Please upload a file or provide a cloud link.', 'error');
+                    return;
+                }
+
+                // Disable submit button
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="gg-spinner"></i> Submitting...';
+
+                try {
+                    // Save to localStorage (for admin panel)
+                    saveSubmission(formData);
+                    
+                    // Also save to pending uploads
+                    saveToPending(formData);
+                    
+                    // Show success message
+                    showMessage('Submission successful! Your material has been sent for admin review.', 'success');
+                    
+                    // Reset form
+                    setTimeout(() => {
+                        this.reset();
+                        selectedFile = null;
+                        fileInfo.classList.remove('show');
+                        fileWarning.classList.remove('show');
+                        sizeWarning.classList.remove('show');
+                        cloudLinkInput.removeAttribute('required');
+                        cloudLinkInput.style.borderColor = '';
+                        cloudLinkInput.style.boxShadow = '';
+                        
+                        // Reset additional fields
+                        document.querySelectorAll('.additional-fields').forEach(field => {
+                            field.style.display = 'none';
+                        });
+                        document.getElementById('pdfFields').style.display = 'block';
+                        
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="gg-software-upload"></i> Submit for Review';
+                    }, 2000);
+                    
+                } catch (error) {
+                    showMessage('Submission failed: ' + error.message, 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="gg-software-upload"></i> Submit for Review';
+                }
+            });
+
+            // Save submission to localStorage
+            function saveSubmission(data) {
+                // Get existing submissions
+                let submissions = localStorage.getItem('scienceHub_submissions');
+                submissions = submissions ? JSON.parse(submissions) : [];
+                
+                // Add new submission
+                submissions.unshift(data);
+                
+                // Save back
+                localStorage.setItem('scienceHub_submissions', JSON.stringify(submissions));
+                
+                console.log('Submission saved:', data);
+            }
+
+            // Save to pending uploads
+            function saveToPending(data) {
+                // Get pending uploads
+                let pendingUploads = localStorage.getItem('scienceHub_pendingUploads');
+                pendingUploads = pendingUploads ? JSON.parse(pendingUploads) : [];
+                
+                // Add to pending
+                pendingUploads.push(data);
+                
+                // Save back
+                localStorage.setItem('scienceHub_pendingUploads', JSON.stringify(pendingUploads));
+            }
+
+            // Generate unique upload ID
+            function generateUploadId() {
+                return 'sub_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            }
+
+            // Show message
+            function showMessage(message, type = 'success') {
+                const statusDiv = document.getElementById('statusMessage');
+                statusDiv.textContent = message;
+                statusDiv.className = 'status-message ' + type;
+                
+                // Scroll to message
+                statusDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+    </script>
+</body>
+</html>

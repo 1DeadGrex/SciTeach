@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Courses | Science Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href='https://css.gg/css' rel='stylesheet'>
+</head>
+<body>
+    <div class="glow-container"></div>
+
+    <div class="container">
+        <header class="page-header" style="text-align: left; margin-bottom: 1rem;">
+            <a href="materials.html" class="simple-back-btn">
+                <i class="gg-arrow-left"></i> Back to Categories
+            </a>
+            <h1 style="font-size: 2.2rem; margin-top: 0.5rem;">
+                Free <span class="text-red">Courses</span>
+            </h1>
+            <p class="text-muted" style="margin-top: 0.3rem; font-size: 0.95rem;">
+                Comprehensive courses from top universities and platforms
+            </p>
+        </header>
+
+        <!-- VIEW TOGGLES -->
+        <div class="view-toggles-container">
+            <div class="view-toggles">
+                <button id="gridViewBtn" class="btn btn-glass active">
+                    <i class="fas fa-th-large"></i> Grid
+                </button>
+                <button id="listViewBtn" class="btn btn-glass">
+                    <i class="fas fa-list"></i> List
+                </button>
+            </div>
+        </div>
+
+        <!-- CONTROLS SECTION -->
+        <div class="controls-section glass-panel">
+            <div class="controls-top-row">
+                <!-- SEARCH BAR -->
+                <div class="search-container">
+                    <i class="gg-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search courses, universities, topics...">
+                </div>
+                
+                <!-- FILTER BUTTON -->
+                <button id="filterBtn" class="btn btn-glass">
+                    <i class="gg-filters"></i> Filters
+                </button>
+            </div>
+            
+            <!-- FILTER CARD -->
+            <div id="filterCard" class="filter-card">
+                <div class="filter-section">
+                    <h3>Subject</h3>
+                    <div class="filter-buttons-grid" id="subjectFilters">
+                        <button class="filter-btn active" data-subject="all">All</button>
+                        <button class="filter-btn" data-subject="physics">Physics</button>
+                        <button class="filter-btn" data-subject="chemistry">Chemistry</button>
+                        <button class="filter-btn" data-subject="biology">Biology</button>
+                        <button class="filter-btn" data-subject="maths">Mathematics</button>
+                        <button class="filter-btn" data-subject="cs">Computer Science</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Level</h3>
+                    <div class="class-filter-grid" id="levelFilters">
+                        <button class="filter-btn active" data-level="all">All</button>
+                        <button class="filter-btn" data-level="beginner">Beginner</button>
+                        <button class="filter-btn" data-level="intermediate">Intermediate</button>
+                        <button class="filter-btn" data-level="advanced">Advanced</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Provider</h3>
+                    <div class="filter-buttons-grid" id="providerFilters">
+                        <button class="filter-btn active" data-provider="all">All</button>
+                        <button class="filter-btn" data-provider="mit">MIT OCW</button>
+                        <button class="filter-btn" data-provider="stanford">Stanford</button>
+                        <button class="filter-btn" data-provider="coursera">Coursera</button>
+                        <button class="filter-btn" data-provider="edx">edX</button>
+                        <button class="filter-btn" data-provider="khan">Khan Academy</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Sort By</h3>
+                    <div class="sort-buttons" id="sortFilters">
+                        <button class="sort-btn active" data-sort="popularity">
+                            <i class="gg-trending"></i> Most Popular
+                        </button>
+                        <button class="sort-btn" data-sort="newest">
+                            <i class="gg-arrow-up"></i> Newest
+                        </button>
+                        <button class="sort-btn" data-sort="duration">
+                            <i class="gg-time"></i> Duration
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COURSE RESOURCES -->
+        <div id="contentContainer" class="grid-view">
+            <!-- MIT Course -->
+            <div class="glass-panel resource-card" data-title="MIT: Introduction to Physics" data-subject="physics" data-level="beginner" data-provider="mit" data-duration="12 weeks" data-rating="4.8">
+                <div class="card-content">
+                    <h3 class="card-title">MIT: Introduction to Physics</h3>
+                    <p class="card-desc text-muted">Classical mechanics, waves, and thermodynamics from MIT OpenCourseWare.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-university"></i> MIT OCW</span>
+                        <span><i class="gg-graduation"></i> Beginner</span>
+                        <span><i class="gg-time"></i> 12 Weeks</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-course-btn" data-resource="mit-physics">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Stanford Course -->
+            <div class="glass-panel resource-card" data-title="Stanford: Organic Chemistry" data-subject="chemistry" data-level="intermediate" data-provider="stanford" data-duration="10 weeks" data-rating="4.7">
+                <div class="card-content">
+                    <h3 class="card-title">Stanford: Organic Chemistry</h3>
+                    <p class="card-desc text-muted">Structure, reactivity, and synthesis of organic compounds.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-university"></i> Stanford</span>
+                        <span><i class="gg-graduation"></i> Intermediate</span>
+                        <span><i class="gg-time"></i> 10 Weeks</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-course-btn" data-resource="stanford-chem">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Coursera Course -->
+            <div class="glass-panel resource-card" data-title="Introduction to Genetics" data-subject="biology" data-level="beginner" data-provider="coursera" data-duration="8 weeks" data-rating="4.6">
+                <div class="card-content">
+                    <h3 class="card-title">Introduction to Genetics</h3>
+                    <p class="card-desc text-muted">Basic principles of heredity and molecular genetics.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-university"></i> Coursera</span>
+                        <span><i class="gg-graduation"></i> Beginner</span>
+                        <span><i class="gg-time"></i> 8 Weeks</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-course-btn" data-resource="genetics-course">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- edX Course -->
+            <div class="glass-panel resource-card" data-title="Calculus for Engineers" data-subject="maths" data-level="intermediate" data-provider="edx" data-duration="14 weeks" data-rating="4.9">
+                <div class="card-content">
+                    <h3 class="card-title">Calculus for Engineers</h3>
+                    <p class="card-desc text-muted">Differential and integral calculus with engineering applications.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-university"></i> edX</span>
+                        <span><i class="gg-graduation"></i> Intermediate</span>
+                        <span><i class="gg-time"></i> 14 Weeks</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-course-btn" data-resource="calculus-eng">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Khan Academy -->
+            <div class="glass-panel resource-card" data-title="High School Biology" data-subject="biology" data-level="beginner" data-provider="khan" data-duration="self-paced" data-rating="4.8">
+                <div class="card-content">
+                    <h3 class="card-title">High School Biology</h3>
+                    <p class="card-desc text-muted">Complete high school biology curriculum with practice exercises.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-university"></i> Khan Academy</span>
+                        <span><i class="gg-graduation"></i> Beginner</span>
+                        <span><i class="gg-time"></i> Self-Paced</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-course-btn" data-resource="khan-biology">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Computer Science -->
+            <div class="glass-panel resource-card" data-title="CS50: Intro to CS" data-subject="cs" data-level="beginner" data-provider="mit" data-duration="11 weeks" data-rating="4.9">
+                <div class="card-content">
+                    <h3 class="card-title">CS50: Introduction to Computer Science</h3>
+                    <p class="card-desc text-muted">Harvard's famous introductory computer science course.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-university"></i> Harvard/MIT</span>
+                        <span><i class="gg-graduation"></i> Beginner</span>
+                        <span><i class="gg-time"></i> 11 Weeks</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-course-btn" data-resource="cs50">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- COURSE DETAILS MODAL -->
+    <div id="courseModal" class="book-modal">
+        <div class="book-modal-content glass-panel">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2 id="modalTitle" class="text-red" style="margin-bottom: 1rem;">Course Details</h2>
+            <div class="course-details" id="courseDetails">
+                <!-- Course details will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div style="text-align: center;">
+            © 2024 Science Hub. Free courses from top educational institutions.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const filterBtn = document.getElementById('filterBtn');
+            const filterCard = document.getElementById('filterCard');
+            const gridViewBtn = document.getElementById('gridViewBtn');
+            const listViewBtn = document.getElementById('listViewBtn');
+            const contentContainer = document.getElementById('contentContainer');
+            const searchInput = document.getElementById('searchInput');
+            const courseModal = document.getElementById('courseModal');
+            const closeModal = document.getElementById('closeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const courseDetails = document.getElementById('courseDetails');
+            
+            // Filter elements
+            const subjectFilters = document.querySelectorAll('#subjectFilters .filter-btn');
+            const levelFilters = document.querySelectorAll('#levelFilters .filter-btn');
+            const providerFilters = document.querySelectorAll('#providerFilters .filter-btn');
+            const sortFilters = document.querySelectorAll('#sortFilters .sort-btn');
+            const resourceCards = document.querySelectorAll('.resource-card');
+            const viewCourseBtns = document.querySelectorAll('.view-course-btn');
+            
+            // Current filter state
+            let currentFilters = {
+                subject: 'all',
+                level: 'all',
+                provider: 'all',
+                sort: 'popularity',
+                search: ''
+            };
+            
+            // Course data
+            const courseData = {
+                'mit-physics': {
+                    title: 'MIT: Introduction to Physics',
+                    provider: 'MIT OpenCourseWare',
+                    level: 'Beginner',
+                    duration: '12 weeks',
+                    rating: '4.8/5.0',
+                    description: 'This course provides an introduction to classical mechanics, waves, and thermodynamics. Topics include: kinematics, Newton\'s laws, conservation of energy and momentum, oscillations, and basic thermodynamics.',
+                    syllabus: [
+                        'Week 1: Kinematics and Newton\'s Laws',
+                        'Week 2: Work, Energy, and Power',
+                        'Week 3: Conservation of Momentum',
+                        'Week 4: Rotational Motion',
+                        'Week 5: Oscillations and Waves',
+                        'Week 6-7: Thermodynamics',
+                        'Week 8-10: Problem Solving Sessions',
+                        'Week 11-12: Review and Final Projects'
+                    ],
+                    link: 'https://ocw.mit.edu/courses/physics'
+                },
+                'stanford-chem': {
+                    title: 'Stanford: Organic Chemistry',
+                    provider: 'Stanford University',
+                    level: 'Intermediate',
+                    duration: '10 weeks',
+                    rating: '4.7/5.0',
+                    description: 'Comprehensive course covering the structure, reactivity, and synthesis of organic compounds. Focus on reaction mechanisms and spectroscopic analysis.',
+                    syllabus: [
+                        'Week 1: Structure and Bonding',
+                        'Week 2: Alkanes and Stereochemistry',
+                        'Week 3: Alkyl Halides and Substitution',
+                        'Week 4: Alkenes and Addition Reactions',
+                        'Week 5: Alkynes and Synthesis',
+                        'Week 6: Spectroscopy',
+                        'Week 7: Aromatic Compounds',
+                        'Week 8: Carbonyl Chemistry',
+                        'Week 9-10: Multistep Synthesis'
+                    ],
+                    link: 'https://online.stanford.edu/courses'
+                }
+            };
+            
+            // Toggle filter card
+            filterBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                filterCard.classList.toggle('active');
+                filterBtn.classList.toggle('active-filter');
+            });
+            
+            // View toggles
+            gridViewBtn.addEventListener('click', function() {
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+                contentContainer.classList.remove('list-view');
+                contentContainer.classList.add('grid-view');
+            });
+            
+            listViewBtn.addEventListener('click', function() {
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+                contentContainer.classList.remove('grid-view');
+                contentContainer.classList.add('list-view');
+            });
+            
+            // Course view buttons
+            viewCourseBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const resourceId = this.dataset.resource;
+                    const resourceData = courseData[resourceId];
+                    
+                    if (resourceData) {
+                        modalTitle.textContent = resourceData.title;
+                        courseDetails.innerHTML = `
+                            <div style="margin-bottom: 1.5rem;">
+                                <h3 style="color: var(--text-color); margin-bottom: 0.5rem;">${resourceData.title}</h3>
+                                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                                    <span class="history-tag"><i class="gg-university"></i> ${resourceData.provider}</span>
+                                    <span class="history-tag"><i class="gg-graduation"></i> ${resourceData.level}</span>
+                                    <span class="history-tag"><i class="gg-time"></i> ${resourceData.duration}</span>
+                                    <span class="history-tag"><i class="gg-star"></i> ${resourceData.rating}</span>
+                                </div>
+                                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">${resourceData.description}</p>
+                            </div>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="color: var(--text-color); margin-bottom: 0.8rem; font-size: 1.1rem;">Course Syllabus:</h4>
+                                <ul style="color: var(--text-muted); padding-left: 1.2rem; margin-bottom: 1.5rem;">
+                                    ${resourceData.syllabus.map(item => `<li style="margin-bottom: 0.3rem;">${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 1.5rem;">
+                                <a href="${resourceData.link}" target="_blank" class="btn btn-primary" style="padding: 0.8rem 2rem;">
+                                    <i class="gg-external"></i> Visit Course Website
+                                </a>
+                                <button id="closeCourseModal" class="btn btn-glass" style="margin-left: 1rem; padding: 0.8rem 2rem;">
+                                    Close
+                                </button>
+                            </div>
+                        `;
+                        
+                        courseModal.classList.add('active');
+                        
+                        // Add event listener to close button inside modal
+                        document.getElementById('closeCourseModal').addEventListener('click', function() {
+                            courseModal.classList.remove('active');
+                        });
+                    }
+                });
+            });
+            
+            // Close modal
+            closeModal.addEventListener('click', function() {
+                courseModal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            courseModal.addEventListener('click', function(e) {
+                if (e.target === courseModal) {
+                    courseModal.classList.remove('active');
+                }
+            });
+            
+            // Filter handlers
+            function setupFilterHandlers(buttons, filterType) {
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        buttons.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        currentFilters[filterType] = this.dataset[filterType];
+                        applyFilters();
+                    });
+                });
+            }
+            
+            // Setup all filters
+            setupFilterHandlers(subjectFilters, 'subject');
+            setupFilterHandlers(levelFilters, 'level');
+            setupFilterHandlers(providerFilters, 'provider');
+            
+            // Sort handlers
+            sortFilters.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    sortFilters.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilters.sort = this.dataset.sort;
+                    applyFilters();
+                });
+            });
+            
+            // Search handler
+            searchInput.addEventListener('input', function() {
+                currentFilters.search = this.value.toLowerCase();
+                applyFilters();
+            });
+            
+            // Apply all filters
+            function applyFilters() {
+                let filteredCards = Array.from(resourceCards);
+                let hasActiveFilter = false;
+                
+                // Track if any non-all filters are active
+                if (currentFilters.subject !== 'all' || currentFilters.level !== 'all' || 
+                    currentFilters.provider !== 'all' || currentFilters.search !== '') {
+                    hasActiveFilter = true;
+                    filterBtn.classList.add('active-filter');
+                } else {
+                    filterBtn.classList.remove('active-filter');
+                }
+                
+                // Apply search filter
+                if (currentFilters.search) {
+                    filteredCards = filteredCards.filter(card => {
+                        const title = card.dataset.title.toLowerCase();
+                        const subject = card.dataset.subject;
+                        const level = card.dataset.level;
+                        const provider = card.dataset.provider;
+                        return title.includes(currentFilters.search) ||
+                               subject.includes(currentFilters.search) ||
+                               level.includes(currentFilters.search) ||
+                               provider.includes(currentFilters.search);
+                    });
+                }
+                
+                // Apply subject filter
+                if (currentFilters.subject !== 'all') {
+                    filteredCards = filteredCards.filter(card => 
+                        card.dataset.subject === currentFilters.subject
+                    );
+                }
+                
+                // Apply level filter
+                if (currentFilters.level !== 'all') {
+                    filteredCards = filteredCards.filter(card => 
+                        card.dataset.level === currentFilters.level
+                    );
+                }
+                
+                // Apply provider filter
+                if (currentFilters.provider !== 'all') {
+                    filteredCards = filteredCards.filter(card => 
+                        card.dataset.provider === currentFilters.provider
+                    );
+                }
+                
+                // Apply sorting
+                filteredCards.sort((a, b) => {
+                    switch(currentFilters.sort) {
+                        case 'popularity':
+                            return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
+                        case 'newest':
+                            // For demo, using rating as proxy for newness
+                            return parseFloat(b.dataset.rating) - parseFloat(a.dataset.rating);
+                        case 'duration':
+                            // Sort by duration (weeks)
+                            const aWeeks = a.dataset.duration.includes('Self') ? 0 : parseInt(a.dataset.duration);
+                            const bWeeks = b.dataset.duration.includes('Self') ? 0 : parseInt(b.dataset.duration);
+                            return bWeeks - aWeeks;
+                        default:
+                            return 0;
+                    }
+                });
+                
+                // Update UI
+                resourceCards.forEach(card => {
+                    card.style.display = 'none';
+                });
+                
+                filteredCards.forEach(card => {
+                    card.style.display = 'flex';
+                });
+                
+                // Show no results message
+                if (filteredCards.length === 0) {
+                    showNoResultsMessage();
+                } else {
+                    hideNoResultsMessage();
+                }
+            }
+            
+            function showNoResultsMessage() {
+                let message = document.querySelector('.no-results-message');
+                if (!message) {
+                    message = document.createElement('div');
+                    message.className = 'glass-panel no-results-message';
+                    message.innerHTML = `
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="gg-search" style="font-size: 2rem; color: var(--primary-red); margin-bottom: 1rem;"></i>
+                            <h3 style="margin-bottom: 0.5rem;">No courses found</h3>
+                            <p class="text-muted">Try adjusting your filters or search terms</p>
+                            <button id="clearFilters" class="btn btn-primary" style="margin-top: 1rem; padding: 0.5rem 1rem;">
+                                Clear All Filters
+                            </button>
+                        </div>
+                    `;
+                    contentContainer.appendChild(message);
+                    
+                    document.getElementById('clearFilters').addEventListener('click', clearAllFilters);
+                }
+            }
+            
+            function hideNoResultsMessage() {
+                const message = document.querySelector('.no-results-message');
+                if (message) {
+                    message.remove();
+                }
+            }
+            
+            function clearAllFilters() {
+                // Reset all filter buttons
+                subjectFilters.forEach(btn => btn.classList.remove('active'));
+                levelFilters.forEach(btn => btn.classList.remove('active'));
+                providerFilters.forEach(btn => btn.classList.remove('active'));
+                sortFilters.forEach(btn => btn.classList.remove('active'));
+                
+                // Set defaults
+                document.querySelector('[data-subject="all"]').classList.add('active');
+                document.querySelector('[data-level="all"]').classList.add('active');
+                document.querySelector('[data-provider="all"]').classList.add('active');
+                document.querySelector('[data-sort="popularity"]').classList.add('active');
+                
+                // Reset state
+                currentFilters = {
+                    subject: 'all',
+                    level: 'all',
+                    provider: 'all',
+                    sort: 'popularity',
+                    search: ''
+                };
+                
+                // Clear search
+                searchInput.value = '';
+                
+                // Apply filters
+                applyFilters();
+                
+                // Hide filter card
+                filterCard.classList.remove('active');
+                filterBtn.classList.remove('active-filter');
+            }
+            
+            // Close filter card when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!filterCard.contains(event.target) && 
+                    !filterBtn.contains(event.target) && 
+                    filterCard.classList.contains('active')) {
+                    filterCard.classList.remove('active');
+                }
+            });
+            
+            // Initialize
+            applyFilters();
+        });
+    </script>
+</body>
+</html>

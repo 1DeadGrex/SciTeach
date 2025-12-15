@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Science Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://css.gg/css' rel='stylesheet'>
+    <style>
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .admin-header {
+            margin-bottom: 2rem;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 31, 31, 0.1);
+            color: var(--text-color);
+        }
+
+        .tab-btn.active {
+            background: var(--primary-red);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .submissions-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .submission-card {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .submission-card.pending {
+            border-left: 4px solid #ffa500;
+            background: rgba(255, 165, 0, 0.05);
+        }
+
+        .submission-card.approved {
+            border-left: 4px solid #00ff00;
+            background: rgba(0, 255, 0, 0.05);
+        }
+
+        .submission-card.rejected {
+            border-left: 4px solid #ff0000;
+            background: rgba(255, 0, 0, 0.05);
+        }
+
+        .submission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .resource-type-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-pdf {
+            background: rgba(255, 31, 31, 0.2);
+            color: var(--primary-red);
+        }
+
+        .badge-notes {
+            background: rgba(0, 150, 255, 0.2);
+            color: #0096ff;
+        }
+
+        .badge-video {
+            background: rgba(255, 0, 150, 0.2);
+            color: #ff0096;
+        }
+
+        .badge-course {
+            background: rgba(150, 0, 255, 0.2);
+            color: #9600ff;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
+        }
+
+        .status-approved {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+        }
+
+        .status-rejected {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff0000;
+        }
+
+        .submission-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 0.8rem;
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+
+        .detail-value {
+            font-weight: 500;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .file-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 150, 255, 0.1);
+            border: 1px solid rgba(0, 150, 255, 0.3);
+            border-radius: 6px;
+            color: #0096ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .file-link:hover {
+            background: rgba(0, 150, 255, 0.2);
+        }
+
+        .admin-notes-input {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: var(--font-main);
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.6rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-family: var(--font-main);
+            min-width: 150px;
+        }
+
+        .admin-login {
+            max-width: 400px;
+            margin: 5rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .github-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            margin-left: 0.5rem;
+        }
+
+        .github-published {
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+        }
+
+        .github-unpublished {
+            background: rgba(255, 165, 0, 0.1);
+            color: #ffa500;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .admin-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .submission-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .admin-actions {
+                flex-direction: column;
+            }
+            
+            .admin-tabs {
+                overflow-x: auto;
+                padding: 0.5rem;
+            }
+            
+            .tab-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-container"></div>
+
+    <!-- Admin Login (simple password protection) -->
+    <div id="adminLogin" style="display: none;" class="admin-container">
+        <div class="admin-login">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Admin <span class="text-red">Panel</span></h2>
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem;">Admin Password</label>
+                <input type="password" id="adminPassword" placeholder="Enter password" style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-color);">
+            </div>
+            <button id="loginBtn" class="btn btn-primary" style="width: 100%; padding: 1rem; margin-top: 1rem;">
+                <i class="gg-log-in"></i> Login
+            </button>
+            <p class="text-muted" style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
+                Default password: <code>admin123</code> (change in code)
+            </p>
+        </div>
+    </div>
+
+    <!-- Admin Panel (shown after login) -->
+    <div id="adminPanel" class="admin-container" style="display: none;">
+        <header class="admin-header">
+            <h1>Admin <span class="text-red">Panel</span></h1>
+            <p class="text-muted">Review and manage teacher submissions</p>
+            <button id="logoutBtn" class="btn btn-glass" style="margin-top: 1rem;">
+                <i class="gg-log-out"></i> Logout
+            </button>
+        </header>
+
+        <!-- Stats -->
+        <div class="admin-stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalSubmissions">0</div>
+                <div class="stat-label">Total Submissions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="pendingSubmissions">0</div>
+                <div class="stat-label">Pending Review</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="approvedSubmissions">0</div>
+                <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="rejectedSubmissions">0</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="admin-tabs">
+            <button class="tab-btn active" data-tab="pending">Pending Review</button>
+            <button class="tab-btn" data-tab="all">All Submissions</button>
+            <button class="tab-btn" data-tab="approved">Approved</button>
+            <button class="tab-btn" data-tab="rejected">Rejected</button>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+            <select id="filterType" class="filter-select">
+                <option value="all">All Types</option>
+                <option value="pdf">PDFs & Books</option>
+                <option value="notes">Handwritten Notes</option>
+                <option value="video">Video Lectures</option>
+                <option value="course">Free Courses</option>
+            </select>
+            <select id="filterSubject" class="filter-select">
+                <option value="all">All Subjects</option>
+                <option value="physics">Physics</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="biology">Biology</option>
+                <option value="mathematics">Mathematics</option>
+                <option value="english">English</option>
+                <option value="computer-science">Computer Science</option>
+            </select>
+            <select id="filterClass" class="filter-select">
+                <option value="all">All Classes</option>
+                <option value="10">Class 10</option>
+                <option value="11">Class 11</option>
+                <option value="12">Class 12</option>
+                <option value="college">College</option>
+            </select>
+        </div>
+
+        <!-- Pending Submissions -->
+        <div id="pendingTab" class="tab-content active">
+            <div id="pendingSubmissionsList" class="submissions-grid">
+                <!-- Pending submissions will load here -->
+            </div>
+        </div>
+
+        <!-- All Submissions -->
+        <div id="allTab" class="tab-content">
+            <div id="allSubmissionsList" class="submissions-grid">
+                <!-- All submissions will load here -->
+            </div>
+        </div>
+
+        <!-- Approved Submissions -->
+        <div id="approvedTab" class="tab-content">
+            <div id="approvedSubmissionsList" class="submissions-grid">
+                <!-- Approved submissions will load here -->
+            </div>
+        </div>
+
+        <!-- Rejected Submissions -->
+        <div id="rejectedTab" class="tab-content">
+            <div id="rejectedSubmissionsList" class="submissions-grid">
+                <!-- Rejected submissions will load here -->
+            </div>
+        </div>
+
+        <!-- Empty State Template -->
+        <template id="emptyStateTemplate">
+            <div class="empty-state">
+                <i class="gg-file" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                <h3>No submissions found</h3>
+                <p>When teachers submit materials, they will appear here.</p>
+            </div>
+        </template>
+
+        <!-- Submission Card Template -->
+        <template id="submissionTemplate">
+            <div class="submission-card">
+                <div class="submission-header">
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem;">[TITLE]</h3>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <span class="resource-type-badge badge-[TYPE]">[TYPE_DISPLAY]</span>
+                            <span class="status-badge status-[STATUS]">[STATUS_DISPLAY]</span>
+                            [GITHUB_BADGE]
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="text-muted" style="font-size: 0.8rem;">[DATE]</div>
+                    </div>
+                </div>
+                
+                <div class="submission-details">
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <div class="detail-label">Teacher</div>
+                            <div class="detail-value">[TEACHER_NAME]</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">[TEACHER_EMAIL]</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Subject</div>
+                            <div class="detail-value">[SUBJECT]</div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <div class="detail-label">Class</div>
+                            <div class="detail-value">[CLASS]</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Year</div>
+                            <div class="detail-value">[YEAR]</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Language</div>
+                            <div class="detail-value">[LANGUAGE]</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Type-specific details -->
+                    <div id="typeSpecificDetails"></div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Description</div>
+                        <div class="detail-value" style="margin-top: 0.5rem;">[DESCRIPTION]</div>
+                    </div>
+                    
+                    <!-- File info -->
+                    <div id="fileInfoSection"></div>
+                    
+                    <!-- Cloud link -->
+                    <div id="cloudLinkSection"></div>
+                    
+                    <!-- Admin notes (if any) -->
+                    <div id="adminNotesSection"></div>
+                </div>
+                
+                <!-- Admin actions (only for pending) -->
+                <div id="adminActionsSection"></div>
+            </div>
+        </template>
+    </div>
+
+    <script>
+        // Admin Panel JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const ADMIN_PASSWORD = 'admin123'; // Change this in production!
+            
+            // Elements
+            const adminLogin = document.getElementById('adminLogin');
+            const adminPanel = document.getElementById('adminPanel');
+            const adminPassword = document.getElementById('adminPassword');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            // Check if already logged in
+            if (localStorage.getItem('scienceHub_adminLoggedIn') === 'true') {
+                showAdminPanel();
+                loadAdminData();
+            } else {
+                showAdminLogin();
+            }
+            
+            // Login
+            loginBtn.addEventListener('click', function() {
+                const password = adminPassword.value;
+                
+                if (password === ADMIN_PASSWORD) {
+                    localStorage.setItem('scienceHub_adminLoggedIn', 'true');
+                    showAdminPanel();
+                    loadAdminData();
+                } else {
+                    alert('Invalid password');
+                }
+            });
+            
+            // Logout
+            logoutBtn.addEventListener('click', function() {
+                localStorage.removeItem('scienceHub_adminLoggedIn');
+                showAdminLogin();
+                adminPassword.value = '';
+            });
+            
+            // Tab switching
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active tab button
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding tab content
+                    const tabId = this.dataset.tab + 'Tab';
+                    document.querySelectorAll('.tab-content').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    // Load data for this tab
+                    loadTabData(this.dataset.tab);
+                });
+            });
+            
+            // Filter changes
+            document.getElementById('filterType').addEventListener('change', loadCurrentTab);
+            document.getElementById('filterSubject').addEventListener('change', loadCurrentTab);
+            document.getElementById('filterClass').addEventListener('change', loadCurrentTab);
+            
+            function showAdminLogin() {
+                adminLogin.style.display = 'block';
+                adminPanel.style.display = 'none';
+            }
+            
+            function showAdminPanel() {
+                adminLogin.style.display = 'none';
+                adminPanel.style.display = 'block';
+            }
+            
+            function loadAdminData() {
+                // Load stats
+                updateStats();
+                
+                // Load pending submissions
+                loadTabData('pending');
+            }
+            
+            function updateStats() {
+                const submissions = getAllSubmissions();
+                
+                const stats = {
+                    total: submissions.length,
+                    pending: submissions.filter(s => s.status === 'pending').length,
+                    approved: submissions.filter(s => s.status === 'approved').length,
+                    rejected: submissions.filter(s => s.status === 'rejected').length
+                };
+                
+                document.getElementById('totalSubmissions').textContent = stats.total;
+                document.getElementById('pendingSubmissions').textContent = stats.pending;
+                document.getElementById('approvedSubmissions').textContent = stats.approved;
+                document.getElementById('rejectedSubmissions').textContent = stats.rejected;
+            }
+            
+            function loadTabData(tab) {
+                const submissions = getAllSubmissions();
+                let filtered = [];
+                
+                // Filter by tab
+                if (tab === 'pending') {
+                    filtered = submissions.filter(s => s.status === 'pending');
+                } else if (tab === 'approved') {
+                    filtered = submissions.filter(s => s.status === 'approved');
+                } else if (tab === 'rejected') {
+                    filtered = submissions.filter(s => s.status === 'rejected');
+                } else {
+                    filtered = submissions;
+                }
+                
+                // Apply additional filters
+                filtered = applyFilters(filtered);
+                
+                // Render submissions
+                renderSubmissions(tab, filtered);
+            }
+            
+            function loadCurrentTab() {
+                const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+                loadTabData(activeTab);
+            }
+            
+            function applyFilters(submissions) {
+                const typeFilter = document.getElementById('filterType').value;
+                const subjectFilter = document.getElementById('filterSubject').value;
+                const classFilter = document.getElementById('filterClass').value;
+                
+                return submissions.filter(submission => {
+                    // Type filter
+                    if (typeFilter !== 'all' && submission.resourceType !== typeFilter) {
+                        return false;
+                    }
+                    
+                    // Subject filter
+                    if (subjectFilter !== 'all' && submission.materialSubject !== subjectFilter) {
+                        return false;
+                    }
+                    
+                    // Class filter
+                    if (classFilter !== 'all' && submission.materialClass !== classFilter) {
+                        return false;
+                    }
+                    
+                    return true;
+                });
+            }
+            
+            function renderSubmissions(tab, submissions) {
+                const containerId = tab + 'SubmissionsList';
+                const container = document.getElementById(containerId);
+                
+                if (submissions.length === 0) {
+                    const template = document.getElementById('emptyStateTemplate');
+                    container.innerHTML = '';
+                    container.appendChild(template.content.cloneNode(true));
+                    return;
+                }
+                
+                container.innerHTML = '';
+                
+                submissions.forEach(submission => {
+                    const template = document.getElementById('submissionTemplate');
+                    const clone = template.content.cloneNode(true);
+                    const card = clone.querySelector('.submission-card');
+                    
+                    // Add status class
+                    card.classList.add(submission.status);
+                    
+                    // Fill basic info
+                    const titleElement = clone.querySelector('h3');
+                    titleElement.textContent = submission.materialTitle;
+                    
+                    // Type badge
+                    const typeBadge = clone.querySelector('.resource-type-badge');
+                    typeBadge.className = `resource-type-badge badge-${submission.resourceType}`;
+                    typeBadge.textContent = getTypeDisplay(submission.resourceType);
+                    
+                    // Status badge
+                    const statusBadge = clone.querySelector('.status-badge');
+                    statusBadge.className = `status-badge status-${submission.status}`;
+                    statusBadge.textContent = submission.status.toUpperCase();
+                    
+                    // GitHub badge
+                    const githubBadge = submission.githubUrl ? 
+                        `<span class="github-status github-published"><i class="gg-git-pull"></i> Published</span>` : 
+                        `<span class="github-status github-unpublished"><i class="gg-git-pull"></i> Not Published</span>`;
+                    
+                    clone.querySelector('[GITHUB_BADGE]').outerHTML = githubBadge;
+                    
+                    // Date
+                    clone.querySelector('[style*="font-size: 0.8rem"]').textContent = 
+                        new Date(submission.submittedAt).toLocaleString();
+                    
+                    // Teacher info
+                    clone.querySelector('[TEACHER_NAME]').textContent = submission.teacherName || 'Not provided';
+                    clone.querySelector('[TEACHER_EMAIL]').textContent = submission.teacherEmail || 'Not provided';
+                    clone.querySelector('[SUBJECT]').textContent = 
+                        (submission.materialSubject || 'Not specified').charAt(0).toUpperCase() + (submission.materialSubject || '').slice(1);
+                    clone.querySelector('[CLASS]').textContent = 
+                        submission.materialClass === 'college' ? 'College' : `Class ${submission.materialClass}`;
+                    clone.querySelector('[YEAR]').textContent = submission.materialYear || 'Not specified';
+                    clone.querySelector('[LANGUAGE]').textContent = 
+                        (submission.materialLanguage || 'english').charAt(0).toUpperCase() + (submission.materialLanguage || '').slice(1);
+                    clone.querySelector('[DESCRIPTION]').textContent = submission.materialDescription || 'No description provided';
+                    
+                    // Type-specific details
+                    const typeDetails = clone.getElementById('typeSpecificDetails');
+                    let typeHTML = '';
+                    
+                    if (submission.resourceType === 'pdf' || submission.resourceType === 'notes') {
+                        if (submission.pages) {
+                            typeHTML += `
+                                <div class="detail-item">
+                                    <div class="detail-label">Pages</div>
+                                    <div class="detail-value">${submission.pages}</div>
+                                </div>
+                            `;
+                        }
+                    } else if (submission.resourceType === 'video') {
+                        if (submission.duration) {
+                            typeHTML += `
+                                <div class="detail-item">
+                                    <div class="detail-label">Duration</div>
+                                    <div class="detail-value">${submission.duration}</div>
+                                </div>
+                            `;
+                        }
+                        if (submission.platform) {
+                            typeHTML += `
+                                <div class="detail-item">
+                                    <div class="detail-label">Platform</div>
+                                    <div class="detail-value">${submission.platform}</div>
+                                </div>
+                            `;
+                        }
+                    } else if (submission.resourceType === 'course') {
+                        if (submission.provider) {
+                            typeHTML += `
+                                <div class="detail-item">
+                                    <div class="detail-label">Provider</div>
+                                    <div class="detail-value">${submission.provider}</div>
+                                </div>
+                            `;
+                        }
+                        if (submission.courseDuration) {
+                            typeHTML += `
+                                <div class="detail-item">
+                                    <div class="detail-label">Duration</div>
+                                    <div class="detail-value">${submission.courseDuration}</div>
+                                </div>
+                            `;
+                        }
+                    }
+                    
+                    if (typeHTML) {
+                        typeDetails.innerHTML = '<div class="detail-row">' + typeHTML + '</div>';
+                    } else {
+                        typeDetails.innerHTML = '';
+                    }
+                    
+                    // File info
+                    const fileSection = clone.getElementById('fileInfoSection');
+                    if (submission.fileInfo) {
+                        fileSection.innerHTML = `
+                            <div class="detail-row">
+                                <div class="detail-item">
+                                    <div class="detail-label">File</div>
+                                    <div class="detail-value">${submission.fileInfo.name}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Size</div>
+                                    <div class="detail-value">${submission.fileInfo.sizeFormatted || formatFileSize(submission.fileInfo.size)}</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-label">Type</div>
+                                    <div class="detail-value">${submission.fileInfo.type || 'Not specified'}</div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        fileSection.innerHTML = '<div class="detail-item"><div class="detail-label">File</div><div class="detail-value">No file uploaded</div></div>';
+                    }
+                    
+                    // Cloud link
+                    const cloudSection = clone.getElementById('cloudLinkSection');
+                    if (submission.cloudLink) {
+                        cloudSection.innerHTML = `
+                            <div class="detail-item">
+                                <div class="detail-label">Cloud Link</div>
+                                <div class="detail-value" style="margin-top: 0.5rem;">
+                                    <a href="${submission.cloudLink}" target="_blank" class="file-link">
+                                        <i class="gg-external"></i> Open Link
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        cloudSection.innerHTML = '';
+                    }
+                    
+                    // GitHub link if published
+                    if (submission.githubUrl) {
+                        const githubSection = document.createElement('div');
+                        githubSection.innerHTML = `
+                            <div class="detail-item">
+                                <div class="detail-label">GitHub Repository</div>
+                                <div class="detail-value" style="margin-top: 0.5rem;">
+                                    <a href="${submission.githubUrl}" target="_blank" class="file-link">
+                                        <i class="gg-git-pull"></i> View on GitHub
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                        cloudSection.parentNode.insertBefore(githubSection, cloudSection.nextSibling);
+                    }
+                    
+                    // Admin notes
+                    const notesSection = clone.getElementById('adminNotesSection');
+                    if (submission.adminNotes) {
+                        notesSection.innerHTML = `
+                            <div class="detail-item" style="background: rgba(255, 31, 31, 0.05); border-left: 3px solid var(--primary-red);">
+                                <div class="detail-label">Admin Notes</div>
+                                <div class="detail-value" style="margin-top: 0.5rem;">${submission.adminNotes}</div>
+                            </div>
+                        `;
+                    } else {
+                        notesSection.innerHTML = '';
+                    }
+                    
+                    // Admin actions (only for pending submissions)
+                    const actionsSection = clone.getElementById('adminActionsSection');
+                    if (submission.status === 'pending') {
+                        actionsSection.innerHTML = `
+                            <div class="admin-actions">
+                                <input type="text" id="adminNotes_${submission.id}" 
+                                       class="admin-notes-input" 
+                                       placeholder="Add notes for teacher (optional)">
+                                <button onclick="approveSubmission('${submission.id}')" 
+                                        class="btn btn-primary">
+                                    <i class="gg-check"></i> Approve
+                                </button>
+                                <button onclick="rejectSubmission('${submission.id}')" 
+                                        class="btn btn-glass">
+                                    <i class="gg-close"></i> Reject
+                                </button>
+                            </div>
+                        `;
+                    } else if (submission.status === 'approved' && !submission.githubUrl) {
+                        actionsSection.innerHTML = `
+                            <div class="admin-actions">
+                                <button onclick="publishToGitHub('${submission.id}')" 
+                                        class="btn btn-primary">
+                                    <i class="gg-cloud"></i> Publish to GitHub
+                                </button>
+                            </div>
+                        `;
+                    } else {
+                        actionsSection.innerHTML = '';
+                    }
+                    
+                    container.appendChild(clone);
+                });
+            }
+            
+            function getTypeDisplay(type) {
+                const types = {
+                    'pdf': 'PDFs & Books',
+                    'notes': 'Handwritten Notes',
+                    'video': 'Video Lectures',
+                    'course': 'Free Courses'
+                };
+                return types[type] || type;
+            }
+            
+            function getAllSubmissions() {
+                const submissions = localStorage.getItem('scienceHub_submissions');
+                return submissions ? JSON.parse(submissions) : [];
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Auto-refresh every 30 seconds
+            setInterval(() => {
+                if (adminPanel.style.display !== 'none') {
+                    updateStats();
+                    loadCurrentTab();
+                }
+            }, 30000);
+        });
+        
+        // Global functions for buttons
+        function approveSubmission(id) {
+            const notesInput = document.getElementById('adminNotes_' + id);
+            const notes = notesInput ? notesInput.value : '';
+            
+            if (confirm('Approve this submission?')) {
+                updateSubmission(id, {
+                    status: 'approved',
+                    adminNotes: notes,
+                    approvedAt: new Date().toISOString()
+                });
+                
+                alert('Submission approved!');
+            }
+        }
+        
+        function rejectSubmission(id) {
+            const notesInput = document.getElementById('adminNotes_' + id);
+            const notes = notesInput ? notesInput.value : '';
+            
+            if (confirm('Reject this submission?')) {
+                updateSubmission(id, {
+                    status: 'rejected',
+                    adminNotes: notes,
+                    rejectedAt: new Date().toISOString()
+                });
+                
+                alert('Submission rejected!');
+            }
+        }
+        
+        function publishToGitHub(id) {
+            if (confirm('Publish this material to GitHub repository?')) {
+                alert('GitHub publishing would happen here.\nIn a real application, this would upload the material to your GitHub repo.');
+                
+                // In real implementation, you would:
+                // 1. Get the submission data
+                // 2. Upload to GitHub using GitHub API
+                // 3. Update submission with GitHub URL
+                
+                // Demo: Mark as published
+                updateSubmission(id, {
+                    githubUrl: 'https://github.com/your-username/science-hub-content',
+                    published: true,
+                    publishedAt: new Date().toISOString()
+                });
+                
+                alert('Material marked as published to GitHub!');
+            }
+        }
+        
+        function updateSubmission(id, updates) {
+            const submissions = getAllSubmissions();
+            const index = submissions.findIndex(s => s.id === id);
+            
+            if (index !== -1) {
+                submissions[index] = { ...submissions[index], ...updates };
+                localStorage.setItem('scienceHub_submissions', JSON.stringify(submissions));
+                
+                // Update stats
+                if (typeof updateStats === 'function') {
+                    updateStats();
+                }
+                
+                // Reload current tab
+                if (typeof loadCurrentTab === 'function') {
+                    loadCurrentTab();
+                }
+                
+                return true;
+            }
+            
+            return false;
+        }
+        
+        function getAllSubmissions() {
+            const submissions = localStorage.getItem('scienceHub_submissions');
+            return submissions ? JSON.parse(submissions) : [];
+        }
+    </script>
+</body>
+</html>

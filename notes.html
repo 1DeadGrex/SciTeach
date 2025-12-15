@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handwritten Notes | Science Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href='https://css.gg/css' rel='stylesheet'>
+</head>
+<body>
+    <div class="glow-container"></div>
+
+    <div class="container">
+        <header class="page-header" style="text-align: left; margin-bottom: 1rem;">
+            <a href="materials.html" class="simple-back-btn">
+                <i class="gg-arrow-left"></i> Back to Categories
+            </a>
+            <h1 style="font-size: 2.2rem; margin-top: 0.5rem;">
+                Handwritten <span class="text-red">Notes</span>
+            </h1>
+            <p class="text-muted" style="margin-top: 0.3rem; font-size: 0.95rem;">
+                Clean, concise notes shared by top students and professors
+            </p>
+        </header>
+
+        <!-- VIEW TOGGLES -->
+        <div class="view-toggles-container">
+            <div class="view-toggles">
+                <button id="gridViewBtn" class="btn btn-glass active">
+                    <i class="fas fa-th-large"></i> Grid
+                </button>
+                <button id="listViewBtn" class="btn btn-glass">
+                    <i class="fas fa-list"></i> List
+                </button>
+            </div>
+        </div>
+
+        <!-- CONTROLS SECTION -->
+        <div class="controls-section glass-panel">
+            <div class="controls-top-row">
+                <!-- SEARCH BAR -->
+                <div class="search-container">
+                    <i class="gg-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search handwritten notes, topics...">
+                </div>
+                
+                <!-- FILTER BUTTON -->
+                <button id="filterBtn" class="btn btn-glass">
+                    <i class="gg-filters"></i> Filters
+                </button>
+            </div>
+            
+            <!-- FILTER CARD -->
+            <div id="filterCard" class="filter-card">
+                <div class="filter-section">
+                    <h3>Subject</h3>
+                    <div class="filter-buttons-grid" id="subjectFilters">
+                        <button class="filter-btn active" data-subject="all">All</button>
+                        <button class="filter-btn" data-subject="physics">Physics</button>
+                        <button class="filter-btn" data-subject="chemistry">Chemistry</button>
+                        <button class="filter-btn" data-subject="biology">Biology</button>
+                        <button class="filter-btn" data-subject="maths">Mathematics</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Level</h3>
+                    <div class="class-filter-grid" id="levelFilters">
+                        <button class="filter-btn active" data-level="all">All</button>
+                        <button class="filter-btn" data-level="10">Class 10</button>
+                        <button class="filter-btn" data-level="11">Class 11</button>
+                        <button class="filter-btn" data-level="12">Class 12</button>
+                        <button class="filter-btn" data-level="college">College</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Quality</h3>
+                    <div class="filter-buttons-grid" id="qualityFilters">
+                        <button class="filter-btn active" data-quality="all">All</button>
+                        <button class="filter-btn" data-quality="neat">Neat Handwriting</button>
+                        <button class="filter-btn" data-quality="colored">Colored Notes</button>
+                        <button class="filter-btn" data-quality="digital">Digital Notes</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Sort By</h3>
+                    <div class="sort-buttons" id="sortFilters">
+                        <button class="sort-btn active" data-sort="newest">
+                            <i class="gg-arrow-up"></i> Newest
+                        </button>
+                        <button class="sort-btn" data-sort="pages">
+                            <i class="gg-file"></i> Most Pages
+                        </button>
+                        <button class="sort-btn" data-sort="az">
+                            <i class="gg-sort-az"></i> A → Z
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTES RESOURCES -->
+        <div id="contentContainer" class="grid-view">
+            <!-- Physics Notes -->
+            <div class="glass-panel resource-card" data-title="Electromagnetism Complete Notes" data-subject="physics" data-level="12" data-quality="neat" data-pages="85" data-date="2024-01-15">
+                <div class="card-content">
+                    <h3 class="card-title">Electromagnetism Complete Notes</h3>
+                    <p class="card-desc text-muted">Complete handwritten notes with diagrams and derivations.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-pen"></i> 85 Pages</span>
+                        <span><i class="gg-graduation"></i> Class 12</span>
+                        <span><i class="gg-star"></i> Neat</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-notes-btn" data-resource="electromagnetism">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Chemistry Notes -->
+            <div class="glass-panel resource-card" data-title="Organic Chemistry Notes" data-subject="chemistry" data-level="11" data-quality="colored" data-pages="65" data-date="2024-02-01">
+                <div class="card-content">
+                    <h3 class="card-title">Organic Chemistry Notes</h3>
+                    <p class="card-desc text-muted">Color-coded notes with reaction mechanisms.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-pen"></i> 65 Pages</span>
+                        <span><i class="gg-graduation"></i> Class 11</span>
+                        <span><i class="gg-star"></i> Colored</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-notes-btn" data-resource="organic-chem-notes">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Biology Notes -->
+            <div class="glass-panel resource-card" data-title="Genetics & Evolution" data-subject="biology" data-level="12" data-quality="neat" data-pages="75" data-date="2024-01-20">
+                <div class="card-content">
+                    <h3 class="card-title">Genetics & Evolution</h3>
+                    <p class="card-desc text-muted">Detailed notes with Punnett squares and diagrams.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-pen"></i> 75 Pages</span>
+                        <span><i class="gg-graduation"></i> Class 12</span>
+                        <span><i class="gg-star"></i> Neat</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-notes-btn" data-resource="genetics">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Mathematics Notes -->
+            <div class="glass-panel resource-card" data-title="Calculus Notes with Problems" data-subject="maths" data-level="college" data-quality="digital" data-pages="120" data-date="2024-02-10">
+                <div class="card-content">
+                    <h3 class="card-title">Calculus Notes with Problems</h3>
+                    <p class="card-desc text-muted">Digital notes with solved examples and practice problems.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-pen"></i> 120 Pages</span>
+                        <span><i class="gg-graduation"></i> College</span>
+                        <span><i class="gg-star"></i> Digital</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-notes-btn" data-resource="calculus-notes">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Class 10 Physics -->
+            <div class="glass-panel resource-card" data-title="Light & Optics Notes" data-subject="physics" data-level="10" data-quality="neat" data-pages="45" data-date="2024-01-30">
+                <div class="card-content">
+                    <h3 class="card-title">Light & Optics Notes</h3>
+                    <p class="card-desc text-muted">Complete chapter notes with ray diagrams.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-pen"></i> 45 Pages</span>
+                        <span><i class="gg-graduation"></i> Class 10</span>
+                        <span><i class="gg-star"></i> Neat</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-notes-btn" data-resource="light-optics">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Chemistry Class 10 -->
+            <div class="glass-panel resource-card" data-title="Acids, Bases & Salts" data-subject="chemistry" data-level="10" data-quality="colored" data-pages="38" data-date="2024-02-05">
+                <div class="card-content">
+                    <h3 class="card-title">Acids, Bases & Salts</h3>
+                    <p class="card-desc text-muted">Colorful notes with chemical equations and indicators.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-pen"></i> 38 Pages</span>
+                        <span><i class="gg-graduation"></i> Class 10</span>
+                        <span><i class="gg-star"></i> Colored</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-notes-btn" data-resource="acids-bases">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTES SELECTION MODAL -->
+    <div id="notesModal" class="book-modal">
+        <div class="book-modal-content glass-panel">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2 id="modalTitle" class="text-red" style="margin-bottom: 1rem;">Notes Collection</h2>
+            <div class="notes-list" id="notesList">
+                <!-- Notes will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div style="text-align: center;">
+            © 2024 Science Hub. Handwritten notes curated for students.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements (similar to video.html)
+            const filterBtn = document.getElementById('filterBtn');
+            const filterCard = document.getElementById('filterCard');
+            const gridViewBtn = document.getElementById('gridViewBtn');
+            const listViewBtn = document.getElementById('listViewBtn');
+            const contentContainer = document.getElementById('contentContainer');
+            const searchInput = document.getElementById('searchInput');
+            const notesModal = document.getElementById('notesModal');
+            const closeModal = document.getElementById('closeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const notesList = document.getElementById('notesList');
+            
+            // Filter elements
+            const subjectFilters = document.querySelectorAll('#subjectFilters .filter-btn');
+            const levelFilters = document.querySelectorAll('#levelFilters .filter-btn');
+            const qualityFilters = document.querySelectorAll('#qualityFilters .filter-btn');
+            const sortFilters = document.querySelectorAll('#sortFilters .sort-btn');
+            const resourceCards = document.querySelectorAll('.resource-card');
+            const viewNotesBtns = document.querySelectorAll('.view-notes-btn');
+            
+            // Current filter state
+            let currentFilters = {
+                subject: 'all',
+                level: 'all',
+                quality: 'all',
+                sort: 'newest',
+                search: ''
+            };
+            
+            // Notes data
+            const notesData = {
+                'electromagnetism': {
+                    title: 'Electromagnetism Complete Notes',
+                    notes: [
+                        { name: 'Chapter 1: Electric Charges', pages: '15', size: '8MB' },
+                        { name: 'Chapter 2: Coulomb\'s Law', pages: '12', size: '6MB' },
+                        { name: 'Chapter 3: Electric Field', pages: '20', size: '10MB' },
+                        { name: 'Chapter 4: Gauss Law', pages: '18', size: '9MB' },
+                        { name: 'Chapter 5: Electric Potential', pages: '20', size: '10MB' }
+                    ]
+                },
+                'organic-chem-notes': {
+                    title: 'Organic Chemistry Notes',
+                    notes: [
+                        { name: '1. Hydrocarbons', pages: '15', size: '7MB' },
+                        { name: '2. Functional Groups', pages: '20', size: '9MB' },
+                        { name: '3. Isomerism', pages: '12', size: '6MB' },
+                        { name: '4. Reaction Mechanisms', pages: '18', size: '8MB' }
+                    ]
+                }
+            };
+            
+            // Toggle filter card
+            filterBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                filterCard.classList.toggle('active');
+                filterBtn.classList.toggle('active-filter');
+            });
+            
+            // View toggles
+            gridViewBtn.addEventListener('click', function() {
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+                contentContainer.classList.remove('list-view');
+                contentContainer.classList.add('grid-view');
+            });
+            
+            listViewBtn.addEventListener('click', function() {
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+                contentContainer.classList.remove('grid-view');
+                contentContainer.classList.add('list-view');
+            });
+            
+            // Notes view buttons
+            viewNotesBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const resourceId = this.dataset.resource;
+                    const resourceData = notesData[resourceId];
+                    
+                    if (resourceData) {
+                        modalTitle.textContent = resourceData.title;
+                        notesList.innerHTML = '';
+                        
+                        resourceData.notes.forEach(note => {
+                            const noteItem = document.createElement('div');
+                            noteItem.className = 'book-item';
+                            noteItem.innerHTML = `
+                                <div class="book-info">
+                                    <div class="book-title">${note.name}</div>
+                                    <div class="book-size">${note.pages} pages • ${note.size}</div>
+                                </div>
+                                <button class="book-download-btn">
+                                    <i class="gg-arrow-down"></i> Download
+                                </button>
+                            `;
+                            notesList.appendChild(noteItem);
+                        });
+                        
+                        notesModal.classList.add('active');
+                    }
+                });
+            });
+            
+            // Close modal
+            closeModal.addEventListener('click', function() {
+                notesModal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            notesModal.addEventListener('click', function(e) {
+                if (e.target === notesModal) {
+                    notesModal.classList.remove('active');
+                }
+            });
+            
+            // Filter handlers
+            function setupFilterHandlers(buttons, filterType) {
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        buttons.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        currentFilters[filterType] = this.dataset[filterType];
+                        applyFilters();
+                    });
+                });
+            }
+            
+            // Setup all filters
+            setupFilterHandlers(subjectFilters, 'subject');
+            setupFilterHandlers(levelFilters, 'level');
+            setupFilterHandlers(qualityFilters, 'quality');
+            
+            // Sort handlers
+            sortFilters.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    sortFilters.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilters.sort = this.dataset.sort;
+                    applyFilters();
+                });
+            });
+            
+            // Search handler
+            searchInput.addEventListener('input', function() {
+                currentFilters.search = this.value.toLowerCase();
+                applyFilters();
+            });
+            
+            // Apply all filters
+            function applyFilters() {
+                let filteredCards = Array.from(resourceCards);
+                let hasActiveFilter = false;
+                
+                // Track if any non-all filters are active
+                if (currentFilters.subject !== 'all' || currentFilters.level !== 'all' || 
+                    currentFilters.quality !== 'all' || currentFilters.search !== '') {
+                    hasActiveFilter = true;
+                    filterBtn.classList.add('active-filter');
+                } else {
+                    filterBtn.classList.remove('active-filter');
+                }
+                
+                // Apply search filter
+                if (currentFilters.search) {
+                    filteredCards = filteredCards.filter(card => {
+                        const title = card.dataset.title.toLowerCase();
+                        const subject = card.dataset.subject;
+                        const level = card.dataset.level;
+                        const quality = card.dataset.quality;
+                        return title.includes(currentFilters.search) ||
+                               subject.includes(currentFilters.search) ||
+                               level.includes(currentFilters.search) ||
+                               quality.includes(currentFilters.search);
+                    });
+                }
+                
+                // Apply subject filter
+                if (currentFilters.subject !== 'all') {
+                    filteredCards = filteredCards.filter(card => 
+                        card.dataset.subject === currentFilters.subject
+                    );
+                }
+                
+                // Apply level filter
+                if (currentFilters.level !== 'all') {
+                    filteredCards = filteredCards.filter(card => 
+                        card.dataset.level === currentFilters.level
+                    );
+                }
+                
+                // Apply quality filter
+                if (currentFilters.quality !== 'all') {
+                    filteredCards = filteredCards.filter(card => 
+                        card.dataset.quality === currentFilters.quality
+                    );
+                }
+                
+                // Apply sorting
+                filteredCards.sort((a, b) => {
+                    switch(currentFilters.sort) {
+                        case 'newest':
+                            return new Date(b.dataset.date) - new Date(a.dataset.date);
+                        case 'pages':
+                            return parseInt(b.dataset.pages) - parseInt(a.dataset.pages);
+                        case 'az':
+                            return a.dataset.title.localeCompare(b.dataset.title);
+                        default:
+                            return 0;
+                    }
+                });
+                
+                // Update UI
+                resourceCards.forEach(card => {
+                    card.style.display = 'none';
+                });
+                
+                filteredCards.forEach(card => {
+                    card.style.display = 'flex';
+                });
+                
+                // Show no results message
+                if (filteredCards.length === 0) {
+                    showNoResultsMessage();
+                } else {
+                    hideNoResultsMessage();
+                }
+            }
+            
+            function showNoResultsMessage() {
+                let message = document.querySelector('.no-results-message');
+                if (!message) {
+                    message = document.createElement('div');
+                    message.className = 'glass-panel no-results-message';
+                    message.innerHTML = `
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="gg-search" style="font-size: 2rem; color: var(--primary-red); margin-bottom: 1rem;"></i>
+                            <h3 style="margin-bottom: 0.5rem;">No notes found</h3>
+                            <p class="text-muted">Try adjusting your filters or search terms</p>
+                            <button id="clearFilters" class="btn btn-primary" style="margin-top: 1rem; padding: 0.5rem 1rem;">
+                                Clear All Filters
+                            </button>
+                        </div>
+                    `;
+                    contentContainer.appendChild(message);
+                    
+                    document.getElementById('clearFilters').addEventListener('click', clearAllFilters);
+                }
+            }
+            
+            function hideNoResultsMessage() {
+                const message = document.querySelector('.no-results-message');
+                if (message) {
+                    message.remove();
+                }
+            }
+            
+            function clearAllFilters() {
+                // Reset all filter buttons
+                subjectFilters.forEach(btn => btn.classList.remove('active'));
+                levelFilters.forEach(btn => btn.classList.remove('active'));
+                qualityFilters.forEach(btn => btn.classList.remove('active'));
+                sortFilters.forEach(btn => btn.classList.remove('active'));
+                
+                // Set defaults
+                document.querySelector('[data-subject="all"]').classList.add('active');
+                document.querySelector('[data-level="all"]').classList.add('active');
+                document.querySelector('[data-quality="all"]').classList.add('active');
+                document.querySelector('[data-sort="newest"]').classList.add('active');
+                
+                // Reset state
+                currentFilters = {
+                    subject: 'all',
+                    level: 'all',
+                    quality: 'all',
+                    sort: 'newest',
+                    search: ''
+                };
+                
+                // Clear search
+                searchInput.value = '';
+                
+                // Apply filters
+                applyFilters();
+                
+                // Hide filter card
+                filterCard.classList.remove('active');
+                filterBtn.classList.remove('active-filter');
+            }
+            
+            // Close filter card when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!filterCard.contains(event.target) && 
+                    !filterBtn.contains(event.target) && 
+                    filterCard.classList.contains('active')) {
+                    filterCard.classList.remove('active');
+                }
+            });
+            
+            // Initialize
+            applyFilters();
+        });
+    </script>
+</body>
+</html>

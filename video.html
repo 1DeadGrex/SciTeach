@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Lectures | Science Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href='https://css.gg/css' rel='stylesheet'>
+</head>
+<body>
+    <div class="glow-container"></div>
+
+    <div class="container">
+        <header class="page-header" style="text-align: left; margin-bottom: 1rem;">
+            <a href="materials.html" class="simple-back-btn">
+                <i class="gg-arrow-left"></i> Back to Categories
+            </a>
+            <h1 style="font-size: 2.2rem; margin-top: 0.5rem;">
+                Video <span class="text-red">Lectures</span>
+            </h1>
+            <p class="text-muted" style="margin-top: 0.3rem; font-size: 0.95rem;">
+                Curated video playlists from YouTube and other platforms
+            </p>
+        </header>
+
+        <!-- VIEW TOGGLES -->
+        <div class="view-toggles-container">
+            <div class="view-toggles">
+                <button id="gridViewBtn" class="btn btn-glass active">
+                    <i class="fas fa-th-large"></i> Grid
+                </button>
+                <button id="listViewBtn" class="btn btn-glass">
+                    <i class="fas fa-list"></i> List
+                </button>
+            </div>
+        </div>
+
+        <!-- CONTROLS SECTION -->
+        <div class="controls-section glass-panel">
+            <div class="controls-top-row">
+                <!-- SEARCH BAR -->
+                <div class="search-container">
+                    <i class="gg-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search video lectures, topics, instructors...">
+                </div>
+                
+                <!-- FILTER BUTTON -->
+                <button id="filterBtn" class="btn btn-glass">
+                    <i class="gg-filters"></i> Filters
+                </button>
+            </div>
+            
+            <!-- FILTER CARD -->
+            <div id="filterCard" class="filter-card">
+                <div class="filter-section">
+                    <h3>Subject</h3>
+                    <div class="filter-buttons-grid" id="subjectFilters">
+                        <button class="filter-btn active" data-subject="all">All</button>
+                        <button class="filter-btn" data-subject="physics">Physics</button>
+                        <button class="filter-btn" data-subject="chemistry">Chemistry</button>
+                        <button class="filter-btn" data-subject="biology">Biology</button>
+                        <button class="filter-btn" data-subject="maths">Mathematics</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Level</h3>
+                    <div class="class-filter-grid" id="levelFilters">
+                        <button class="filter-btn active" data-level="all">All</button>
+                        <button class="filter-btn" data-level="10">Class 10</button>
+                        <button class="filter-btn" data-level="11">Class 11</button>
+                        <button class="filter-btn" data-level="12">Class 12</button>
+                        <button class="filter-btn" data-level="college">College</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Duration</h3>
+                    <div class="filter-buttons-grid" id="durationFilters">
+                        <button class="filter-btn active" data-duration="all">All</button>
+                        <button class="filter-btn" data-duration="short">Short (<30 min)</button>
+                        <button class="filter-btn" data-duration="medium">Medium (30-60 min)</button>
+                        <button class="filter-btn" data-duration="long">Long (>60 min)</button>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Sort By</h3>
+                    <div class="sort-buttons" id="sortFilters">
+                        <button class="sort-btn active" data-sort="popularity">
+                            <i class="gg-trending"></i> Most Viewed
+                        </button>
+                        <button class="sort-btn" data-sort="newest">
+                            <i class="gg-arrow-up"></i> Newest
+                        </button>
+                        <button class="sort-btn" data-sort="az">
+                            <i class="gg-sort-az"></i> A → Z
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIDEO RESOURCES -->
+        <div id="contentContainer" class="grid-view">
+            <!-- Physics Videos -->
+            <div class="glass-panel resource-card" data-title="Modern Physics Complete Course" data-subject="physics" data-level="12" data-duration="long" data-views="1200000">
+                <div class="card-content">
+                    <h3 class="card-title">Modern Physics Complete Course</h3>
+                    <p class="card-desc text-muted">Complete 50+ video series covering modern physics concepts with numerical problems.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-play-button-o"></i> 50+ Videos</span>
+                        <span><i class="gg-graduation"></i> Class 12</span>
+                        <span><i class="gg-time"></i> 40 Hours</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-videos-btn" data-resource="modern-physics">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Chemistry Videos -->
+            <div class="glass-panel resource-card" data-title="Organic Chemistry Mechanisms" data-subject="chemistry" data-level="11" data-duration="medium" data-views="850000">
+                <div class="card-content">
+                    <h3 class="card-title">Organic Chemistry Mechanisms</h3>
+                    <p class="card-desc text-muted">Detailed explanation of reaction mechanisms with 3D animations.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-play-button-o"></i> 35 Videos</span>
+                        <span><i class="gg-graduation"></i> Class 11</span>
+                        <span><i class="gg-time"></i> 25 Hours</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-videos-btn" data-resource="organic-chemistry">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Biology Videos -->
+            <div class="glass-panel resource-card" data-title="Human Physiology Complete" data-subject="biology" data-level="12" data-duration="long" data-views="950000">
+                <div class="card-content">
+                    <h3 class="card-title">Human Physiology Complete</h3>
+                    <p class="card-desc text-muted">Complete human anatomy and physiology with medical illustrations.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-play-button-o"></i> 45 Videos</span>
+                        <span><i class="gg-graduation"></i> Class 12</span>
+                        <span><i class="gg-time"></i> 35 Hours</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-videos-btn" data-resource="human-physiology">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Mathematics Videos -->
+            <div class="glass-panel resource-card" data-title="Calculus for Beginners" data-subject="maths" data-level="college" data-duration="medium" data-views="1100000">
+                <div class="card-content">
+                    <h3 class="card-title">Calculus for Beginners</h3>
+                    <p class="card-desc text-muted">Step-by-step calculus from basics to advanced topics.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-play-button-o"></i> 30 Videos</span>
+                        <span><i class="gg-graduation"></i> College</span>
+                        <span><i class="gg-time"></i> 20 Hours</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-videos-btn" data-resource="calculus">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Class 10 Physics -->
+            <div class="glass-panel resource-card" data-title="Light: Reflection & Refraction" data-subject="physics" data-level="10" data-duration="short" data-views="650000">
+                <div class="card-content">
+                    <h3 class="card-title">Light: Reflection & Refraction</h3>
+                    <p class="card-desc text-muted">Complete chapter with experiments and numerical problems.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-play-button-o"></i> 15 Videos</span>
+                        <span><i class="gg-graduation"></i> Class 10</span>
+                        <span><i class="gg-time"></i> 8 Hours</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-videos-btn" data-resource="light-physics">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Chemistry Class 10 -->
+            <div class="glass-panel resource-card" data-title="Chemical Reactions & Equations" data-subject="chemistry" data-level="10" data-duration="short" data-views="580000">
+                <div class="card-content">
+                    <h3 class="card-title">Chemical Reactions & Equations</h3>
+                    <p class="card-desc text-muted">Balancing equations and types of chemical reactions.</p>
+                    <div class="card-meta text-muted">
+                        <span><i class="gg-play-button-o"></i> 12 Videos</span>
+                        <span><i class="gg-graduation"></i> Class 10</span>
+                        <span><i class="gg-time"></i> 6 Hours</span>
+                    </div>
+                </div>
+                <button class="arrow-btn view-videos-btn" data-resource="chemical-reactions">
+                    <i class="gg-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIDEO SELECTION MODAL -->
+    <div id="videoModal" class="book-modal">
+        <div class="book-modal-content glass-panel">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2 id="modalTitle" class="text-red" style="margin-bottom: 1rem;">Video Playlist</h2>
+            <div class="video-list" id="videoList">
+                <!-- Videos will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div style="text-align: center;">
+            © 2024 Science Hub. Educational videos curated for students.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const filterBtn = document.getElementById('filterBtn');
+            const filterCard = document.getElementById('filterCard');
+            const gridViewBtn = document.getElementById('gridViewBtn');
+            const listViewBtn = document.getElementById('listViewBtn');
+            const contentContainer = document.getElementById('contentContainer');
+            const searchInput = document.getElementById('searchInput');
+            const videoModal = document.getElementById('videoModal');
+            const closeModal = document.getElementById('closeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const videoList = document.getElementById('videoList');
+            
+            // Filter elements
+            const subjectFilters = document.querySelectorAll('#subjectFilters .filter-btn');
+            const levelFilters = document.querySelectorAll('#levelFilters .filter-btn');
+            const durationFilters = document.querySelectorAll('#durationFilters .filter-btn');
+            const sortFilters = document.querySelectorAll('#sortFilters .sort-btn');
+            const resourceCards = document.querySelectorAll('.resource-card');
+            const viewVideosBtns = document.querySelectorAll('.view-videos-btn');
+            
+            // Current filter state
+            let currentFilters = {
+                subject: 'all',
+                level: 'all',
+                duration: 'all',
+                sort: 'popularity',
+                search: ''
+            };
+            
+            // Video data
+            const videoData = {
+                'modern-physics': {
+                    title: 'Modern Physics Complete Course',
+                    videos: [
+                        { name: '1. Photoelectric Effect', duration: '25:30', url: '#' },
+                        { name: '2. De Broglie Hypothesis', duration: '32:15', url: '#' },
+                        { name: '3. Bohr\'s Atomic Model', duration: '28:45', url: '#' },
+                        { name: '4. Nuclear Physics Basics', duration: '35:20', url: '#' },
+                        { name: '5. Semiconductor Physics', duration: '40:10', url: '#' }
+                    ]
+                },
+                'organic-chemistry': {
+                    title: 'Organic Chemistry Mechanisms',
+                    videos: [
+                        { name: '1. SN1 Reaction Mechanism', duration: '22:45', url: '#' },
+                        { name: '2. SN2 Reaction Mechanism', duration: '25:30', url: '#' },
+                        { name: '3. E1 Elimination', duration: '28:15', url: '#' },
+                        { name: '4. E2 Elimination', duration: '26:40', url: '#' },
+                        { name: '5. Markovnikov Rule', duration: '24:50', url: '#' }
+                    ]
+                },
+                'human-physiology': {
+                    title: 'Human Physiology Complete',
+                    videos: [
+                        { name: '1. Digestive System', duration: '38:20', url: '#' },
+                        { name: '2. Circulatory System', duration: '42:15', url: '#' },
+                        { name: '3. Respiratory System', duration: '35:45', url: '#' },
+                        { name: '4. Nervous System', duration: '45:30', url: '#' },
+                        { name: '5. Endocrine System', duration: '39:50', url: '#' }
+                    ]
+                }
+            };
+            
+            // Toggle filter card
+            filterBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                filterCard.classList.toggle('active');
+                filterBtn.classList.toggle('active-filter');
+            });
+            
+            // View toggles
+            gridViewBtn.addEventListener('click', function() {
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+                contentContainer.classList.remove('list-view');
+                contentContainer.classList.add('grid-view');
+            });
+            
+            listViewBtn.addEventListener('click', function() {
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+                contentContainer.classList.remove('grid-view');
+                contentContainer.classList.add('list-view');
+            });
+            
+            // Video view buttons
+            viewVideosBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const resourceId = this.dataset.resource;
+                    const resourceData = videoData[resourceId];
+                    
+                    if (resourceData) {
+                        modalTitle.textContent = resourceData.title;
+                        videoList.innerHTML = '';
+                        
+                        resourceData.videos.forEach(video => {
+                            const videoItem = document.createElement('div');
+                            videoItem.className = 'book-item';
+                            videoItem.innerHTML = `
+                                <div class="book-info">
+                                    <div class="book-title">${video.name}</div>
+                                    <div class="book-size">${video.duration}</div>
+                                </div>
+                                <a href="${video.url}" target="_blank" class="book-download-btn">
+                                    <i class="gg-play-button-o"></i> Watch
+                                </a>
+                            `;
+                            videoList.appendChild(videoItem);
+                        });
+                        
+                        videoModal.classList.add('active');
+                    }
+                });
+            });
+            
+            // Close modal
+            closeModal.addEventListener('click', function() {
+                videoModal.classList.remove('active');
+            });
+            
+            // Close modal when clicking outside
+            videoModal.addEventListener('click', function(e) {
+                if (e.target === videoModal) {
+                    videoModal.classList.remove('active');
+                }
+            });
+            
+            // Filter handlers
+            function setupFilterHandlers(buttons, filterType) {
+                buttons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        buttons.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        currentFilters[filterType] = this.dataset[filterType];
+                        applyFilters();
+                    });
+                });
+            }
+            
+            // Setup all filters
+            setupFilterHandlers(subjectFilters, 'subject');
+            setupFilterHandlers(levelFilters, 'level');
+            setupFilterHandlers(durationFilters, 'duration');
+            
+            // Sort handlers
+            sortFilters.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    sortFilters.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilters.sort = this.dataset.sort;
+                    applyFilters();
+                });
+            });
+            
+            // Search handler
+            searchInput.addEventListener('input', function() {
+                currentFilters.search = this.value.toLowerCase();
+                applyFilters();
+            });
+            
+            // Apply all filters
+            function applyFilters() {
+                let filteredCards = Array.from(resourceCards);
+                let hasActiveFilter = false;
+                
+                // Track if any non-all filters are active
+                if (currentFilters.subject !== 'all' || currentFilters.level !== 'all' || 
+                    currentFilters.duration !== 'all' || currentFilters.search !== '') {
+                    hasActiveFilter = true;
+                    filterBtn.classList.add('active-filter');
+                } else {
+                    filterBtn.classList.remove('active-filter');
+                }
+                
+                // Apply search filter
+                if (currentFilters.search) {
+                    filteredCards = filteredCards.filter(card => {
+                        const title = card.dataset.title.toLowerCase();
+                        const subject = card.dataset.subject;
+                        const level = card.dataset.level;
+                        return title.includes(currentFilters.search) ||
+                               subject.includes(currentFilters.search) ||
+                               level.includes(currentFilters.search);
+                    });
+                }
+                
+                // Apply subject filter
+                if (currentFilters.subject !== 'all') {
+                    filteredCards = filteredCards.filter(card => 
+                        card.dataset.subject === currentFilters.subject
+                    );
+                }
+                
+                // Apply level filter
+                if (currentFilters.level !== 'all') {
+                    filteredCards = filteredCards.filter(card => 
+                        card.dataset.level === currentFilters.level
+                    );
+                }
+                
+                // Apply duration filter
+                if (currentFilters.duration !== 'all') {
+                    filteredCards = filteredCards.filter(card => {
+                        const duration = card.dataset.duration;
+                        if (currentFilters.duration === 'short') return duration === 'short';
+                        if (currentFilters.duration === 'medium') return duration === 'medium';
+                        if (currentFilters.duration === 'long') return duration === 'long';
+                        return true;
+                    });
+                }
+                
+                // Apply sorting
+                filteredCards.sort((a, b) => {
+                    switch(currentFilters.sort) {
+                        case 'popularity':
+                            return parseInt(b.dataset.views) - parseInt(a.dataset.views);
+                        case 'newest':
+                            // For demo, using views as proxy for newness
+                            return parseInt(b.dataset.views) - parseInt(a.dataset.views);
+                        case 'az':
+                            return a.dataset.title.localeCompare(b.dataset.title);
+                        default:
+                            return 0;
+                    }
+                });
+                
+                // Update UI
+                resourceCards.forEach(card => {
+                    card.style.display = 'none';
+                });
+                
+                filteredCards.forEach(card => {
+                    card.style.display = 'flex';
+                });
+                
+                // Show no results message
+                if (filteredCards.length === 0) {
+                    showNoResultsMessage();
+                } else {
+                    hideNoResultsMessage();
+                }
+            }
+            
+            function showNoResultsMessage() {
+                let message = document.querySelector('.no-results-message');
+                if (!message) {
+                    message = document.createElement('div');
+                    message.className = 'glass-panel no-results-message';
+                    message.innerHTML = `
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="gg-search" style="font-size: 2rem; color: var(--primary-red); margin-bottom: 1rem;"></i>
+                            <h3 style="margin-bottom: 0.5rem;">No videos found</h3>
+                            <p class="text-muted">Try adjusting your filters or search terms</p>
+                            <button id="clearFilters" class="btn btn-primary" style="margin-top: 1rem; padding: 0.5rem 1rem;">
+                                Clear All Filters
+                            </button>
+                        </div>
+                    `;
+                    contentContainer.appendChild(message);
+                    
+                    document.getElementById('clearFilters').addEventListener('click', clearAllFilters);
+                }
+            }
+            
+            function hideNoResultsMessage() {
+                const message = document.querySelector('.no-results-message');
+                if (message) {
+                    message.remove();
+                }
+            }
+            
+            function clearAllFilters() {
+                // Reset all filter buttons
+                subjectFilters.forEach(btn => btn.classList.remove('active'));
+                levelFilters.forEach(btn => btn.classList.remove('active'));
+                durationFilters.forEach(btn => btn.classList.remove('active'));
+                sortFilters.forEach(btn => btn.classList.remove('active'));
+                
+                // Set defaults
+                document.querySelector('[data-subject="all"]').classList.add('active');
+                document.querySelector('[data-level="all"]').classList.add('active');
+                document.querySelector('[data-duration="all"]').classList.add('active');
+                document.querySelector('[data-sort="popularity"]').classList.add('active');
+                
+                // Reset state
+                currentFilters = {
+                    subject: 'all',
+                    level: 'all',
+                    duration: 'all',
+                    sort: 'popularity',
+                    search: ''
+                };
+                
+                // Clear search
+                searchInput.value = '';
+                
+                // Apply filters
+                applyFilters();
+                
+                // Hide filter card
+                filterCard.classList.remove('active');
+                filterBtn.classList.remove('active-filter');
+            }
+            
+            // Close filter card when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!filterCard.contains(event.target) && 
+                    !filterBtn.contains(event.target) && 
+                    filterCard.classList.contains('active')) {
+                    filterCard.classList.remove('active');
+                }
+            });
+            
+            // Initialize
+            applyFilters();
+        });
+    </script>
+</body>
+</html>
