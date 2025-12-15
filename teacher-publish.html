@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publish Material | SciTeach</title>
+    <title>Publish Material | Science Hub</title>
     <link rel="stylesheet" href="style.css">
     <link href='https://css.gg/css' rel='stylesheet'>
     <style>
@@ -343,7 +343,6 @@
                     <label for="materialClass" class="required">Class/Grade</label>
                     <select id="materialClass" required>
                         <option value="">Select Class</option>
-                        <option value="9">Class 9</option>
                         <option value="10">Class 10</option>
                         <option value="11">Class 11</option>
                         <option value="12">Class 12</option>
@@ -359,8 +358,6 @@
                     <label for="materialYear" class="required">Year</label>
                     <select id="materialYear" required>
                         <option value="">Select Year</option>
-                        <option value="2020">2026(latest)</option>
-                        <option value="2020">2025</option>
                         <option value="2024">2024</option>
                         <option value="2023">2023</option>
                         <option value="2022">2022</option>
@@ -612,12 +609,18 @@
                 return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
             }
 
+            // Generate unique upload ID
+            function generateUploadId() {
+                return 'sub_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            }
+
             // Form submission
             document.getElementById('publishForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 // Get form values
                 const formData = {
+                    id: generateUploadId(),
                     teacherName: document.getElementById('teacherName').value,
                     teacherEmail: document.getElementById('teacherEmail').value,
                     materialTitle: document.getElementById('materialTitle').value,
@@ -629,8 +632,7 @@
                     resourceType: document.getElementById('resourceType').value,
                     cloudLink: document.getElementById('cloudLink').value || null,
                     submittedAt: new Date().toISOString(),
-                    status: 'pending',
-                    id: generateUploadId()
+                    status: 'pending'
                 };
 
                 // Add type-specific fields
@@ -671,11 +673,8 @@
                 submitBtn.innerHTML = '<i class="gg-spinner"></i> Submitting...';
 
                 try {
-                    // Save to localStorage (for admin panel)
+                    // Save to localStorage for admin panel
                     saveSubmission(formData);
-                    
-                    // Also save to pending uploads
-                    saveToPending(formData);
                     
                     // Show success message
                     showMessage('Submission successful! Your material has been sent for admin review.', 'success');
@@ -696,6 +695,11 @@
                             field.style.display = 'none';
                         });
                         document.getElementById('pdfFields').style.display = 'block';
+                        
+                        // Reset resource type buttons
+                        resourceTypeBtns.forEach(btn => btn.classList.remove('active'));
+                        document.querySelector('[data-type="pdf"]').classList.add('active');
+                        document.getElementById('resourceType').value = 'pdf';
                         
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = '<i class="gg-software-upload"></i> Submit for Review';
@@ -721,24 +725,7 @@
                 localStorage.setItem('scienceHub_submissions', JSON.stringify(submissions));
                 
                 console.log('Submission saved:', data);
-            }
-
-            // Save to pending uploads
-            function saveToPending(data) {
-                // Get pending uploads
-                let pendingUploads = localStorage.getItem('scienceHub_pendingUploads');
-                pendingUploads = pendingUploads ? JSON.parse(pendingUploads) : [];
-                
-                // Add to pending
-                pendingUploads.push(data);
-                
-                // Save back
-                localStorage.setItem('scienceHub_pendingUploads', JSON.stringify(pendingUploads));
-            }
-
-            // Generate unique upload ID
-            function generateUploadId() {
-                return 'sub_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                console.log('Total submissions in localStorage:', submissions.length);
             }
 
             // Show message
